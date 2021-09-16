@@ -1,0 +1,8 @@
+name: HalloweenHeist
+main: nl._99th_dutchies.halloween_heist.HalloweenHeist
+version: ${version}
+description: ${description}
+website: https://99th-dutchies.nl/
+authors: [ "99th_DutchVoid" ]
+softdepend: [ "ViaBackwards" ]
+api-version: 1.16
