@@ -1,14 +1,17 @@
 package nl._99th_dutchies.halloween_heist;
 
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityCombustEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityResurrectEvent;
+import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +26,8 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
         config.options().copyDefaults(true);
         saveConfig();
 
+        Bukkit.getPluginManager().registerEvents(this, this);
+
         if(!config.getBoolean("itemLoaded")) {
             loadItem();
         }
@@ -31,6 +36,29 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
     @EventHandler
     public void onEntityResurrect(EntityResurrectEvent event) {
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onEntityDamage(EntityDamageEvent event) {
+        if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
+                ((Item)event.getEntity()).getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onEntityCombust(EntityCombustEvent event) {
+        if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
+                ((Item)event.getEntity()).getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onItemDespawn(ItemDespawnEvent event){
+        if(event.getEntity().getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
+            event.setCancelled(true);
+        }
     }
 
     private void loadItem() {
