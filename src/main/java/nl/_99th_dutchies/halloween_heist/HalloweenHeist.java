@@ -73,7 +73,15 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
     @EventHandler
     public void onItemDespawn(ItemDespawnEvent event){
         if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
-                (event.getEntity()).getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
+                event.getEntity().getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onEntityPickupItem(EntityPickupItemEvent event) {
+        if(!event.getEntity().equals(EntityType.PLAYER) &&
+                event.getItem().getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
             event.setCancelled(true);
         }
     }
