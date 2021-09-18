@@ -9,10 +9,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityCombustEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityResurrectEvent;
-import org.bukkit.event.entity.ItemDespawnEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -69,6 +66,15 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
         if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
                 (event.getEntity()).getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
             event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent event){
+        for(ItemStack drop : event.getDrops()) {
+            if(drop.isSimilar(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
+                drop.setAmount(0);
+            }
         }
     }
 
