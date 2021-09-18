@@ -14,8 +14,10 @@ import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.entity.ItemDespawnEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.text.MessageFormat;
 import java.util.Random;
 
 public class HalloweenHeist extends JavaPlugin implements Listener {
@@ -78,6 +80,10 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
         Inventory dropChestInventory = dropChest.getBlockInventory();
 
         ItemStack dropItemStack = new ItemStack(Material.TOTEM_OF_UNDYING, 1);
+        ItemMeta dropItemMeta = dropItemStack.getItemMeta();
+        dropItemMeta.setDisplayName(MessageFormat.format("{0}{1}Medal of Valor", ChatColor.BLUE, ChatColor.BOLD));
+        dropItemStack.setItemMeta(dropItemMeta);
+
         dropChestInventory.setItem(13, dropItemStack);
 
         config.set("itemLoaded", true);
