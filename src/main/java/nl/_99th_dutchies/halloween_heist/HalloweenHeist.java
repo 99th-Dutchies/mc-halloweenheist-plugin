@@ -6,13 +6,16 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Random;
 
-public class HalloweenHeist extends JavaPlugin {
+public class HalloweenHeist extends JavaPlugin implements Listener {
     FileConfiguration config = getConfig();
 
     @Override
@@ -23,6 +26,11 @@ public class HalloweenHeist extends JavaPlugin {
         if(!config.getBoolean("itemLoaded")) {
             loadItem();
         }
+    }
+
+    @EventHandler
+    public void onEntityResurrect(EntityResurrectEvent event) {
+        event.setCancelled(true);
     }
 
     private void loadItem() {
