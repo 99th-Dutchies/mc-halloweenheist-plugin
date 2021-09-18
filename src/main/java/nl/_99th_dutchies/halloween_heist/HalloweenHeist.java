@@ -1,5 +1,6 @@
 package nl._99th_dutchies.halloween_heist;
 
+import nl._99th_dutchies.halloween_heist.command.CommandKit;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -30,6 +32,8 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
 
         Bukkit.getPluginManager().registerEvents(this, this);
 
+        this.getCommand("kit").setExecutor(new CommandKit());
+
         if(!config.getBoolean("itemLoaded")) {
             loadMedal();
         }
@@ -38,6 +42,11 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         this.doDropMedal(event.getPlayer());
+    }
+
+    @EventHandler
+    public void onPlayerDeath(PlayerDeathEvent event) {
+        event.getEntity().removeMetadata("nl._99th_dutchies.halloween_heist.hasUsedKit", this);
     }
 
     @EventHandler
