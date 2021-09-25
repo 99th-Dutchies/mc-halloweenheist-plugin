@@ -1,6 +1,7 @@
 package nl._99th_dutchies.halloween_heist.command;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeist;
+import nl._99th_dutchies.halloween_heist.util.InventoryItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -63,23 +64,5 @@ public class CommandKit implements CommandExecutor {
         }
 
         return true;
-    }
-}
-
-class InventoryItem {
-    public final Material material;
-    public final int count;
-    public final String name;
-
-    InventoryItem(Material material, int count) {
-        this.material = material;
-        this.count = count;
-        this.name = null;
-    }
-
-    InventoryItem(Material material, int count, String name) {
-        this.material = material;
-        this.count = count;
-        this.name = name;
     }
 }

@@ -1,21 +1,19 @@
 package nl._99th_dutchies.halloween_heist;
 
 import nl._99th_dutchies.halloween_heist.command.CommandKit;
+import nl._99th_dutchies.halloween_heist.listener.MedalSavingListener;
+import nl._99th_dutchies.halloween_heist.listener.MedalTrackingListener;
+import nl._99th_dutchies.halloween_heist.util.MedalContainer;
+import nl._99th_dutchies.halloween_heist.util.MedalLocation;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,7 +21,8 @@ import java.text.MessageFormat;
 import java.util.Random;
 
 public class HalloweenHeist extends JavaPlugin implements Listener {
-    FileConfiguration config = getConfig();
+    public FileConfiguration config = getConfig();
+    public MedalLocation medalLocation = new MedalLocation(this.getServer().getWorld(this.config.getString("worldName")), null,null);
 
     @Override
     public void onEnable() {
@@ -31,90 +30,23 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
         saveConfig();
 
         Bukkit.getPluginManager().registerEvents(this, this);
+        Bukkit.getPluginManager().registerEvents(new MedalTrackingListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new MedalSavingListener(this), this);
 
         this.getCommand("kit").setExecutor(new CommandKit());
 
         if(!config.getBoolean("itemLoaded")) {
-            loadMedal();
+            spawnMedal();
         }
-    }
-
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent event) {
-        this.doDropMedal(event.getPlayer());
     }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         event.getEntity().removeMetadata("nl._99th_dutchies.halloween_heist.hasUsedKit", this);
+        this.medalLocation.findMedal();
     }
 
-    @EventHandler
-    public void onEntityResurrect(EntityResurrectEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onEntityDamage(EntityDamageEvent event) {
-        if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
-                ((Item)event.getEntity()).getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onEntityCombust(EntityCombustEvent event) {
-        if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
-                ((Item)event.getEntity()).getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onItemDespawn(ItemDespawnEvent event){
-        if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
-                event.getEntity().getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onEntityPickupItem(EntityPickupItemEvent event) {
-        if(!event.getEntity().equals(EntityType.PLAYER) &&
-                event.getItem().getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onEntityDeath(EntityDeathEvent event){
-        for(ItemStack drop : event.getDrops()) {
-            if(drop.isSimilar(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
-                drop.setAmount(0);
-            }
-        }
-    }
-
-    private void doDropMedal(Player p) {
-        PlayerInventory pi = p.getInventory();
-        ItemStack is = new ItemStack(Material.TOTEM_OF_UNDYING, 1);
-
-        if(pi.getItemInMainHand() != null && pi.getItemInMainHand().equals(is)) {
-            p.dropItem(false);
-        }
-        if(pi.getItemInOffHand() != null && pi.getItemInOffHand().equals(is)) {
-            p.getWorld().dropItem(p.getLocation(), pi.getItemInOffHand());
-            pi.setItemInOffHand(null);
-        }
-        for(int i = 0; i < 36; i++) {
-            if(pi.getItem(i) != null && pi.getItem(i).equals(is)) {
-                p.getWorld().dropItem(p.getLocation(), pi.getItem(i));
-                pi.remove(pi.getItem(i));
-            }
-        }
-    }
-
-    private void loadMedal() {
+    private void spawnMedal() {
         int itemOffset = this.config.getInt("itemOffset");
         int worldDimensions = this.config.getInt("worldDimensions");
 
@@ -136,6 +68,7 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
         dropItemStack.setItemMeta(dropItemMeta);
 
         dropChestInventory.setItem(13, dropItemStack);
+        this.medalLocation.update(dropLocation, MedalContainer.STORAGE_BLOCK);
 
         config.set("itemLoaded", true);
         saveConfig();
