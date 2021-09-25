@@ -37,7 +37,7 @@ public class MedalLocation {
                     if (worldEntity instanceof Player) {
                         for (ItemStack invItemStack : ((Player) worldEntity).getInventory()) {
                             if (invItemStack != null && invItemStack.isSimilar(dummyStack)) {
-                                System.out.println("Medal found with player " + ((Player) worldEntity).getDisplayName());
+                                System.out.println("Medal found with player " + ((Player) worldEntity).getDisplayName() + " at [" + this.location.getX() + "," + this.location.getY() + "," + this.location.getZ() + "]");
                                 this.update(worldEntity.getLocation(), MedalContainer.PLAYER);
                                 return;
                             }

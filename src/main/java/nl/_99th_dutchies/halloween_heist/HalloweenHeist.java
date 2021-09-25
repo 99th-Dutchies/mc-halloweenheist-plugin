@@ -3,6 +3,7 @@ package nl._99th_dutchies.halloween_heist;
 import nl._99th_dutchies.halloween_heist.command.CommandKit;
 import nl._99th_dutchies.halloween_heist.listener.MedalSavingListener;
 import nl._99th_dutchies.halloween_heist.listener.MedalTrackingListener;
+import nl._99th_dutchies.halloween_heist.util.LocationBroadcaster;
 import nl._99th_dutchies.halloween_heist.util.MedalContainer;
 import nl._99th_dutchies.halloween_heist.util.MedalLocation;
 import org.bukkit.*;
@@ -22,12 +23,18 @@ import java.util.Random;
 
 public class HalloweenHeist extends JavaPlugin implements Listener {
     public FileConfiguration config = getConfig();
-    public MedalLocation medalLocation = new MedalLocation(this.getServer().getWorld(this.config.getString("worldName")), null,null);
+    public MedalLocation medalLocation;
+    public int lastLocationBroadcastHour = -1;
+    public Location lastLocationBroadcastLocation;
+    public World mainWorld;
 
     @Override
     public void onEnable() {
         config.options().copyDefaults(true);
         saveConfig();
+
+        this.mainWorld = this.getServer().getWorld(this.config.getString("worldName"));
+        this.medalLocation = new MedalLocation(this.mainWorld, null,null);
 
         Bukkit.getPluginManager().registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents(new MedalTrackingListener(this), this);
@@ -38,6 +45,8 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
         if(!config.getBoolean("itemLoaded")) {
             spawnMedal();
         }
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new LocationBroadcaster(this), 0L, 20L * 10L);
     }
 
     @EventHandler
@@ -50,7 +59,7 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
         int itemOffset = this.config.getInt("itemOffset");
         int worldDimensions = this.config.getInt("worldDimensions");
 
-        World world = this.getServer().getWorld(this.config.getString("worldName"));
+        World world = this.mainWorld;
         Random rand = new Random();
 
         int dropX = (rand.nextInt(worldDimensions - itemOffset) + itemOffset) * (rand.nextBoolean() ? 1 : -1);
