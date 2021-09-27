@@ -25,7 +25,11 @@ public class LocationBroadcaster implements Runnable {
             Location broadcastLocation = this.calcLocation();
             this.plugin.lastLocationBroadcastLocation = broadcastLocation;
 
-            Bukkit.broadcastMessage("The medal can be found somewhere around [X:" + ((int) broadcastLocation.getX()) + ",Z:" + ((int) broadcastLocation.getZ()) + "]");
+            if(broadcastLocation == null) {
+                Bukkit.broadcastMessage("The medal is very well hidden and could not be traced");
+            } else {
+                Bukkit.broadcastMessage("The medal can be found somewhere around [X:" + ((int) broadcastLocation.getX()) + ",Z:" + ((int) broadcastLocation.getZ()) + "]");
+            }
         }
     }
 
