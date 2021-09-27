@@ -10,3 +10,6 @@ commands:
   kit:
     description: Obtain a default kit
     usage: /kit
+  trade:
+    description: Trade 3 redstone for 1 glowstone dust
+    usage: /trade [amount]

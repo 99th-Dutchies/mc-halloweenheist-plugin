@@ -1,6 +1,7 @@
 package nl._99th_dutchies.halloween_heist;
 
 import nl._99th_dutchies.halloween_heist.command.CommandKit;
+import nl._99th_dutchies.halloween_heist.command.CommandTrade;
 import nl._99th_dutchies.halloween_heist.listener.MedalSavingListener;
 import nl._99th_dutchies.halloween_heist.listener.MedalTrackingListener;
 import nl._99th_dutchies.halloween_heist.util.LocationBroadcaster;
@@ -42,6 +43,7 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new MedalSavingListener(this), this);
 
         this.getCommand("kit").setExecutor(new CommandKit());
+        this.getCommand("trade").setExecutor(new CommandTrade());
 
         if(!config.getBoolean("itemLoaded")) {
             spawnMedal();
