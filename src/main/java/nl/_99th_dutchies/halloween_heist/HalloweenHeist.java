@@ -6,6 +6,7 @@ import nl._99th_dutchies.halloween_heist.listener.MedalTrackingListener;
 import nl._99th_dutchies.halloween_heist.util.LocationBroadcaster;
 import nl._99th_dutchies.halloween_heist.util.MedalContainer;
 import nl._99th_dutchies.halloween_heist.util.MedalLocation;
+import nl._99th_dutchies.halloween_heist.util.RealTimeCycle;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -47,6 +48,10 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
         }
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new LocationBroadcaster(this), 0L, 20L * 10L);
+
+        if(config.getBoolean("realTimeCycle.active")) {
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new RealTimeCycle(this), 0, 20L);
+        }
     }
 
     @EventHandler
