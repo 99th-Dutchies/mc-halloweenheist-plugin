@@ -7,27 +7,27 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class MedalLocation {
+public class HeistObjectLocation {
     public Location location;
-    public MedalContainer container;
+    public HeistObjectContainer container;
     private final World world;
 
-    public MedalLocation(World w, Location l, MedalContainer c) {
+    public HeistObjectLocation(World w, Location l, HeistObjectContainer c) {
         this.world = w;
         this.location = l;
         this.container = c;
     }
 
-    public void update(Location l, MedalContainer c) {
+    public void update(Location l, HeistObjectContainer c) {
         this.location = l;
         this.container = c;
     }
 
-    public void findMedal() {
-        ItemStack dummyStack = new ItemStack(Material.TOTEM_OF_UNDYING, 1);
+    public void find(Material heistObject) {
+        ItemStack dummyStack = new ItemStack(heistObject, 1);
 
         if(this.container == null) {
-            System.out.println("Medal not found");
+            System.out.println("Heist Object not found");
             return;
         }
 
@@ -37,8 +37,8 @@ public class MedalLocation {
                     if (worldEntity instanceof Player) {
                         for (ItemStack invItemStack : ((Player) worldEntity).getInventory()) {
                             if (invItemStack != null && invItemStack.isSimilar(dummyStack)) {
-                                System.out.println("Medal found with player " + ((Player) worldEntity).getDisplayName() + " at [" + this.location.getX() + "," + this.location.getY() + "," + this.location.getZ() + "]");
-                                this.update(worldEntity.getLocation(), MedalContainer.PLAYER);
+                                System.out.println("Heist Object found with player " + ((Player) worldEntity).getDisplayName() + " at [" + this.location.getX() + "," + this.location.getY() + "," + this.location.getZ() + "]");
+                                this.update(worldEntity.getLocation(), HeistObjectContainer.PLAYER);
                                 return;
                             }
                         }
@@ -46,17 +46,17 @@ public class MedalLocation {
                 }
                 break;
             case STORAGE_BLOCK:
-                System.out.println("Medal found with block at [" + this.location.getX() + "," + this.location.getY() + "," + this.location.getZ() +"]");
+                System.out.println("Heist Object found with block at [" + this.location.getX() + "," + this.location.getY() + "," + this.location.getZ() +"]");
                 return;
             case DROPPED:
-                System.out.println("Medal dropped at [" + this.location.getX() + "," + this.location.getY() + "," + this.location.getZ() +"]");
+                System.out.println("Heist Object dropped at [" + this.location.getX() + "," + this.location.getY() + "," + this.location.getZ() +"]");
                 return;
             default:
-                System.out.println("Medal not found");
+                System.out.println("Heist Object not found");
                 return;
         }
 
-        System.out.println("Medal not found");
+        System.out.println("Heist Object not found");
         this.update(null, null);
     }
 }

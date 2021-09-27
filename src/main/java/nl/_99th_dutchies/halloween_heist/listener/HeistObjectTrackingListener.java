@@ -1,7 +1,7 @@
 package nl._99th_dutchies.halloween_heist.listener;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeist;
-import nl._99th_dutchies.halloween_heist.util.MedalContainer;
+import nl._99th_dutchies.halloween_heist.util.HeistObjectContainer;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -12,39 +12,39 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 
 /*
- * Medal moving events:
+ * Heist Object moving events:
  * - drop (PlayerDropItemEvent)
  * - pickup (PlayerPickupItemEvent)
  * - place / take (InventoryMoveItemEvent)
  */
 
-public class MedalTrackingListener implements Listener {
+public class HeistObjectTrackingListener implements Listener {
     private HalloweenHeist plugin;
 
-    public MedalTrackingListener(HalloweenHeist plugin) {
+    public HeistObjectTrackingListener(HalloweenHeist plugin) {
         this.plugin = plugin;
     }
 
     @EventHandler
     public void onEntityPickupItem(EntityPickupItemEvent event) {
-        if(event.getItem().getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
+        if(event.getItem().getItemStack().equals(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
             if(event.getEntityType() == EntityType.PLAYER) {
-                this.plugin.medalLocation.update(event.getEntity().getLocation(), MedalContainer.PLAYER);
+                this.plugin.heistObjectLocation.update(event.getEntity().getLocation(), HeistObjectContainer.PLAYER);
             }
         }
     }
 
     @EventHandler
     public void onInventoryPickupItem(InventoryPickupItemEvent event) {
-        if(event.getItem().getItemStack().equals(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
-            this.plugin.medalLocation.update(event.getInventory().getLocation(), MedalContainer.STORAGE_BLOCK);
+        if(event.getItem().getItemStack().equals(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
+            this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.STORAGE_BLOCK);
         }
     }
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event){
         for(ItemStack drop : event.getDrops()) {
-            if(drop.isSimilar(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
+            if(drop.isSimilar(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
                 drop.setAmount(0);
             }
         }
@@ -52,29 +52,29 @@ public class MedalTrackingListener implements Listener {
 
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
-        if(event.getItemDrop().getItemStack().isSimilar(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
-            this.plugin.medalLocation.update(event.getItemDrop().getLocation(), MedalContainer.DROPPED);
+        if(event.getItemDrop().getItemStack().isSimilar(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
+            this.plugin.heistObjectLocation.update(event.getItemDrop().getLocation(), HeistObjectContainer.DROPPED);
         }
     }
 
     @EventHandler
     public void onInventoryMoveItem(InventoryMoveItemEvent event) {
-        if(event.getItem().isSimilar(new ItemStack(Material.TOTEM_OF_UNDYING, 1))) {
-            this.plugin.medalLocation.update(event.getDestination().getLocation(), MedalContainer.STORAGE_BLOCK);
+        if(event.getItem().isSimilar(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
+            this.plugin.heistObjectLocation.update(event.getDestination().getLocation(), HeistObjectContainer.STORAGE_BLOCK);
         }
     }
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         if(!event.getInventory().getHolder().equals(event.getPlayer())) {
-            ItemStack dummy = new ItemStack(Material.TOTEM_OF_UNDYING, 1);
+            ItemStack dummy = new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1);
 
             for(ItemStack invItemStack : event.getInventory()) {
                 if(invItemStack != null && invItemStack.isSimilar(dummy)) {
                     if(event.getInventory().getType() == InventoryType.PLAYER) {
-                        this.plugin.medalLocation.update(event.getInventory().getLocation(), MedalContainer.PLAYER);
+                        this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.PLAYER);
                     } else {
-                        this.plugin.medalLocation.update(event.getInventory().getLocation(), MedalContainer.STORAGE_BLOCK);
+                        this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.STORAGE_BLOCK);
                     }
                     return;
                 }
@@ -82,7 +82,7 @@ public class MedalTrackingListener implements Listener {
             for(ItemStack invItemStack : event.getPlayer().getInventory()) {
                 if(invItemStack != null && invItemStack.isSimilar(dummy)) {
                     if(event.getInventory().getType() == InventoryType.PLAYER) {
-                        this.plugin.medalLocation.update(event.getInventory().getLocation(), MedalContainer.PLAYER);
+                        this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.PLAYER);
                     }
                     return;
                 }

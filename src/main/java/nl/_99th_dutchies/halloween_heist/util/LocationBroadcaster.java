@@ -26,9 +26,9 @@ public class LocationBroadcaster implements Runnable {
             this.plugin.lastLocationBroadcastLocation = broadcastLocation;
 
             if(broadcastLocation == null) {
-                Bukkit.broadcastMessage("The medal is very well hidden and could not be traced");
+                Bukkit.broadcastMessage("The " + this.plugin.season.getHeistObjectName() + " is very well hidden and could not be traced");
             } else {
-                Bukkit.broadcastMessage("The medal can be found somewhere around [X:" + ((int) broadcastLocation.getX()) + ",Z:" + ((int) broadcastLocation.getZ()) + "]");
+                Bukkit.broadcastMessage("The " + this.plugin.season.getHeistObjectName() + " can be found somewhere around [X:" + ((int) broadcastLocation.getX()) + ",Z:" + ((int) broadcastLocation.getZ()) + "]");
             }
         }
     }
@@ -36,8 +36,8 @@ public class LocationBroadcaster implements Runnable {
     private Location calcLocation() {
         Random rand = new Random();
         Location broadcastLocation = new Location(this.plugin.mainWorld, 0, 0, 0);
-        this.plugin.medalLocation.findMedal();
-        Location currentLocation = this.plugin.medalLocation.location;
+        this.plugin.heistObjectLocation.find(this.plugin.season.getHeistObjectMaterial());
+        Location currentLocation = this.plugin.heistObjectLocation.location;
 
         int randX = (rand.nextInt(10)) * (rand.nextBoolean() ? 1 : -1);
         int randZ = (rand.nextInt(10)) * (rand.nextBoolean() ? 1 : -1);

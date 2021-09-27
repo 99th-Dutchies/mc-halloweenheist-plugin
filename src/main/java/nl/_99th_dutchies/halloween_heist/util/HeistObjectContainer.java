@@ -1,6 +1,6 @@
 package nl._99th_dutchies.halloween_heist.util;
 
-public enum MedalContainer {
+public enum HeistObjectContainer {
     PLAYER,
     STORAGE_BLOCK,
     DROPPED
