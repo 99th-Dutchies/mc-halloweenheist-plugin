@@ -39,6 +39,8 @@ public class LocationBroadcaster implements Runnable {
         this.plugin.heistObjectLocation.find(this.plugin.season.getHeistObjectMaterial());
         Location currentLocation = this.plugin.heistObjectLocation.location;
 
+        if(currentLocation == null) return null;
+
         int randX = (rand.nextInt(10)) * (rand.nextBoolean() ? 1 : -1);
         int randZ = (rand.nextInt(10)) * (rand.nextBoolean() ? 1 : -1);
         broadcastLocation.setX(currentLocation.getX() + randX);
