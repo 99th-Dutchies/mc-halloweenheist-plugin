@@ -9,6 +9,7 @@ import nl._99th_dutchies.halloween_heist.season.Season1;
 import nl._99th_dutchies.halloween_heist.util.HeistObjectLocation;
 import nl._99th_dutchies.halloween_heist.util.LocationBroadcaster;
 import nl._99th_dutchies.halloween_heist.util.RealTimeCycle;
+import nl._99th_dutchies.halloween_heist.util.WinnerAnnouncer;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.EventHandler;
@@ -44,7 +45,8 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
             this.season.spawnHeistObject();
         }
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new LocationBroadcaster(this), 0L, 20L * 10L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new LocationBroadcaster(this), 0L, 20L);
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WinnerAnnouncer(this), 0L, 20L);
 
         if(config.getBoolean("realTimeCycle.active")) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new RealTimeCycle(this), 0, 20L);
@@ -64,6 +66,5 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
     public void onPlayerDeath(PlayerDeathEvent event) {
         event.getEntity().removeMetadata("nl._99th_dutchies.halloween_heist.hasUsedKit", this);
         this.heistObjectLocation.find(this.season.getHeistObjectMaterial());
-        this.season.sendWinnerMessage(event.getEntity().getDisplayName());
     }
 }

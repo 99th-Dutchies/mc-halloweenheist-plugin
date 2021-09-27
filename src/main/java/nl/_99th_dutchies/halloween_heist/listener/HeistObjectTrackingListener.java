@@ -29,7 +29,7 @@ public class HeistObjectTrackingListener implements Listener {
     public void onEntityPickupItem(EntityPickupItemEvent event) {
         if(event.getItem().getItemStack().equals(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
             if(event.getEntityType() == EntityType.PLAYER) {
-                this.plugin.heistObjectLocation.update(event.getEntity().getLocation(), HeistObjectContainer.PLAYER);
+                this.plugin.heistObjectLocation.update(event.getEntity().getLocation(), HeistObjectContainer.PLAYER, (Player) event.getEntity());
             }
         }
     }
@@ -53,7 +53,11 @@ public class HeistObjectTrackingListener implements Listener {
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         if(event.getItemDrop().getItemStack().isSimilar(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
-            this.plugin.heistObjectLocation.update(event.getItemDrop().getLocation(), HeistObjectContainer.DROPPED);
+            if(event.getPlayer().isDead()) {
+                this.plugin.heistObjectLocation.update(event.getItemDrop().getLocation(), HeistObjectContainer.DROPPED, null);
+            } else {
+                this.plugin.heistObjectLocation.update(event.getItemDrop().getLocation(), HeistObjectContainer.DROPPED, event.getPlayer());
+            }
         }
     }
 
@@ -72,9 +76,9 @@ public class HeistObjectTrackingListener implements Listener {
             for(ItemStack invItemStack : event.getInventory()) {
                 if(invItemStack != null && invItemStack.isSimilar(dummy)) {
                     if(event.getInventory().getType() == InventoryType.PLAYER) {
-                        this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.PLAYER);
+                        this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.PLAYER, (Player) event.getPlayer());
                     } else {
-                        this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.STORAGE_BLOCK);
+                        this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.STORAGE_BLOCK, (Player) event.getPlayer());
                     }
                     return;
                 }
@@ -82,7 +86,7 @@ public class HeistObjectTrackingListener implements Listener {
             for(ItemStack invItemStack : event.getPlayer().getInventory()) {
                 if(invItemStack != null && invItemStack.isSimilar(dummy)) {
                     if(event.getInventory().getType() == InventoryType.PLAYER) {
-                        this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.PLAYER);
+                        this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.PLAYER, (Player) event.getPlayer());
                     }
                     return;
                 }

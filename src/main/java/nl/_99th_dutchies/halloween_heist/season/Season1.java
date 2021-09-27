@@ -5,6 +5,7 @@ import nl._99th_dutchies.halloween_heist.util.HeistObjectContainer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -30,9 +31,31 @@ public class Season1 implements ISeason {
     }
 
     @Override
-    public void sendWinnerMessage(String username) {
-        Bukkit.broadcastMessage(MessageFormat.format("{0}{1}ATTENTION, EVERYONE!", ChatColor.BLUE, ChatColor.BOLD));
-        Bukkit.broadcastMessage(MessageFormat.format("{0}{1}{2} is an amazing player / genius.", ChatColor.BLUE, ChatColor.BOLD, username));
+    public void sendWinnerMessage(Player winner) {
+        if(winner == null) {
+            for(Player p : this.plugin.getServer().getOnlinePlayers()) {
+                p.sendTitle(
+                        MessageFormat.format("{0}Happy Halloween!", ChatColor.GOLD),
+                        MessageFormat.format("{0}Technically, there was no winner.", ChatColor.GRAY),
+                        10,
+                        100,
+                        20);
+            }
+
+            Bukkit.broadcastMessage(MessageFormat.format("{0}So, since nobody properly obtained the " + this.getHeistObjectName() + "{0}, no one really won the heist this year.", ChatColor.BLUE));
+        } else {
+            for(Player p : this.plugin.getServer().getOnlinePlayers()) {
+                p.sendTitle(
+                        MessageFormat.format("{0}Happy Halloween!", ChatColor.GOLD),
+                        MessageFormat.format("{0}{1}{2} is an amazing player / genius.", ChatColor.BLUE, ChatColor.BOLD, winner.getDisplayName()),
+                        10,
+                        100,
+                        20);
+            }
+
+            Bukkit.broadcastMessage(MessageFormat.format("{0}{1}ATTENTION, EVERYONE!", ChatColor.BLUE, ChatColor.BOLD));
+            Bukkit.broadcastMessage(MessageFormat.format("{0}{1}{2} is an amazing player / genius.", ChatColor.BLUE, ChatColor.BOLD, winner.getDisplayName()));
+        }
     }
 
     @Override
@@ -58,7 +81,7 @@ public class Season1 implements ISeason {
         dropItemStack.setItemMeta(dropItemMeta);
 
         dropChestInventory.setItem(13, dropItemStack);
-        this.plugin.heistObjectLocation.update(dropLocation, HeistObjectContainer.STORAGE_BLOCK);
+        this.plugin.heistObjectLocation.update(dropLocation, HeistObjectContainer.STORAGE_BLOCK, null);
 
         this.plugin.config.set("itemLoaded", true);
         this.plugin.saveConfig();

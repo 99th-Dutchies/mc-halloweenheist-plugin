@@ -10,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 public class HeistObjectLocation {
     public Location location;
     public HeistObjectContainer container;
+    public Player lastPlayer = null;
     private final World world;
 
     public HeistObjectLocation(World w, Location l, HeistObjectContainer c) {
@@ -21,6 +22,12 @@ public class HeistObjectLocation {
     public void update(Location l, HeistObjectContainer c) {
         this.location = l;
         this.container = c;
+    }
+
+    public void update(Location l, HeistObjectContainer c, Player p) {
+        this.location = l;
+        this.container = c;
+        this.lastPlayer = p;
     }
 
     public void find(Material heistObject) {
