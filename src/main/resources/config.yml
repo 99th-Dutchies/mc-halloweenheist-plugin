@@ -6,3 +6,4 @@ realTimeCycle:
   active: true
   sunrise: 7:30
   sunset: 17:07
+allowEnderchest: false

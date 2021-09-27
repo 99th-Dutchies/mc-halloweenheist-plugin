@@ -7,6 +7,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -27,6 +28,13 @@ public class MedalSavingListener implements Listener {
     @EventHandler
     public void onEntityResurrect(EntityResurrectEvent event) {
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+        if(!this.plugin.config.getBoolean("allowEnderchest") && event.getBlockPlaced().getType() == Material.ENDER_CHEST) {
+            event.getBlockPlaced().getLocation().getBlock().setType(Material.CHEST);
+        }
     }
 
     @EventHandler
