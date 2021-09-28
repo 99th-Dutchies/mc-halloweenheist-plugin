@@ -14,7 +14,7 @@ import java.text.MessageFormat;
 import java.util.Random;
 
 public class Season1 implements ISeason {
-    private HalloweenHeistPlugin plugin;
+    private final HalloweenHeistPlugin plugin;
 
     public Season1(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;

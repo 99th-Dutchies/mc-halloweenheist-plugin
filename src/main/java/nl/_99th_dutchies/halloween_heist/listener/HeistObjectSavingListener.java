@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 public class HeistObjectSavingListener implements Listener {
-    private HalloweenHeistPlugin plugin;
+    private final HalloweenHeistPlugin plugin;
 
     public HeistObjectSavingListener(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
@@ -82,17 +82,18 @@ public class HeistObjectSavingListener implements Listener {
         PlayerInventory pi = p.getInventory();
         ItemStack is = new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1);
 
-        if(pi.getItemInMainHand() != null && pi.getItemInMainHand().equals(is)) {
+        if(pi.getItemInMainHand().equals(is)) {
             p.dropItem(false);
         }
-        if(pi.getItemInOffHand() != null && pi.getItemInOffHand().equals(is)) {
+        if(pi.getItemInOffHand().equals(is)) {
             p.getWorld().dropItem(p.getLocation(), pi.getItemInOffHand());
             pi.setItemInOffHand(null);
         }
         for(int i = 0; i < 36; i++) {
-            if(pi.getItem(i) != null && pi.getItem(i).equals(is)) {
-                p.getWorld().dropItem(p.getLocation(), pi.getItem(i));
-                pi.remove(pi.getItem(i));
+            ItemStack piItem = pi.getItem(i);
+            if(piItem != null && piItem.equals(is)) {
+                p.getWorld().dropItem(p.getLocation(), piItem);
+                pi.remove(piItem);
             }
         }
     }

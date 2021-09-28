@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 public class LocationBroadcaster implements Runnable {
-    private HalloweenHeistPlugin plugin;
+    private final HalloweenHeistPlugin plugin;
 
     public LocationBroadcaster(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;

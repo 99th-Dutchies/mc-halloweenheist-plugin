@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 public class RealTimeCycle implements Runnable {
-    private HalloweenHeistPlugin plugin;
+    private final HalloweenHeistPlugin plugin;
 
     public RealTimeCycle(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
@@ -31,7 +31,7 @@ public class RealTimeCycle implements Runnable {
         final long sunRiseS = (long) (sunRise * 3600);
         final long sunSetS  = (long) (sunSet * 3600);
 
-        long mapped = 0;
+        long mapped;
 
         if(seconds < sunRiseS) {
             mapped = map(seconds, 0, sunRiseS, -6000, -1000);

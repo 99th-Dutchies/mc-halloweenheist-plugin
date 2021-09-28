@@ -15,7 +15,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.util.ArrayList;
 
 public class CommandKit implements CommandExecutor {
-    private HalloweenHeistPlugin plugin;
+    private final HalloweenHeistPlugin plugin;
 
     public CommandKit(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
@@ -23,17 +23,15 @@ public class CommandKit implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player p)) {
             sender.sendMessage(ChatColor.RED + "Only players can use this command");
             return false;
         }
 
-        Player p = (Player) sender;
-
         if (p.hasMetadata("nl._99th_dutchies.halloween_heist.hasUsedKit")) {
             sender.sendMessage(ChatColor.RED + "You already obtained your kit");
         } else {
-            ArrayList<InventoryItem> items = new ArrayList<InventoryItem>();
+            ArrayList<InventoryItem> items = new ArrayList<>();
             items.add(new InventoryItem(Material.CHAINMAIL_BOOTS, 1, "Tactical gear"));
             items.add(new InventoryItem(Material.CHAINMAIL_CHESTPLATE, 1, "Tactical gear"));
             items.add(new InventoryItem(Material.CHAINMAIL_HELMET, 1, "Tactical gear"));

@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import java.time.LocalDateTime;
 
 public class WinnerAnnouncer implements Runnable {
-    private HalloweenHeistPlugin plugin;
+    private final HalloweenHeistPlugin plugin;
 
     public WinnerAnnouncer(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;

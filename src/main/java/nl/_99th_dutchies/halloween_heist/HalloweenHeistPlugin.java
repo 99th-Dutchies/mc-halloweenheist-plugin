@@ -18,7 +18,7 @@ import org.bukkit.event.entity.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
-    public FileConfiguration config = getConfig();
+    public final FileConfiguration config = getConfig();
     public HeistObjectLocation heistObjectLocation;
     public int lastLocationBroadcastHour = -1;
     public Location lastLocationBroadcastLocation;

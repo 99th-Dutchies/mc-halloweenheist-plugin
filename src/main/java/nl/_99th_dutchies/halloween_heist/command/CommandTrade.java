@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class CommandTrade implements CommandExecutor {
-    private HalloweenHeistPlugin plugin;
+    private final HalloweenHeistPlugin plugin;
 
     public CommandTrade(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
@@ -18,18 +18,17 @@ public class CommandTrade implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player p)) {
             sender.sendMessage(ChatColor.RED + "Only players can use this command");
             return false;
         }
 
-        Player p = (Player) sender;
         int available = 0;
         int amount = 1;
 
         try {
             amount = Integer.parseInt(args[0]);
-        } catch(Exception ex) {}
+        } catch(Exception ignored) {}
 
         for(ItemStack invItemStack : p.getInventory()) {
             if(invItemStack != null && invItemStack.isSimilar(new ItemStack(Material.REDSTONE, 1))) {
