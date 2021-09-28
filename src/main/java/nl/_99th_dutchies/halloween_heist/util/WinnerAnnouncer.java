@@ -1,15 +1,15 @@
 package nl._99th_dutchies.halloween_heist.util;
 
-import nl._99th_dutchies.halloween_heist.HalloweenHeist;
+import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
 
 public class WinnerAnnouncer implements Runnable {
-    private HalloweenHeist plugin;
+    private HalloweenHeistPlugin plugin;
 
-    public WinnerAnnouncer(HalloweenHeist plugin) {
+    public WinnerAnnouncer(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
     }
 

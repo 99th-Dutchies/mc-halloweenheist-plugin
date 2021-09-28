@@ -1,5 +1,5 @@
-name: HalloweenHeist
-main: nl._99th_dutchies.halloween_heist.HalloweenHeist
+name: HalloweenHeistPlugin
+main: nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin
 version: 1.0
 description: ""
 website: https://99th-dutchies.nl/

@@ -1,6 +1,6 @@
 package nl._99th_dutchies.halloween_heist.listener;
 
-import nl._99th_dutchies.halloween_heist.HalloweenHeist;
+import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import nl._99th_dutchies.halloween_heist.util.HeistObjectContainer;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -19,9 +19,9 @@ import org.bukkit.inventory.ItemStack;
  */
 
 public class HeistObjectTrackingListener implements Listener {
-    private HalloweenHeist plugin;
+    private HalloweenHeistPlugin plugin;
 
-    public HeistObjectTrackingListener(HalloweenHeist plugin) {
+    public HeistObjectTrackingListener(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
     }
 

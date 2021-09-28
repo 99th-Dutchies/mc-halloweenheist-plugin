@@ -1,6 +1,6 @@
 package nl._99th_dutchies.halloween_heist.season;
 
-import nl._99th_dutchies.halloween_heist.HalloweenHeist;
+import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import nl._99th_dutchies.halloween_heist.util.HeistObjectContainer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -14,9 +14,9 @@ import java.text.MessageFormat;
 import java.util.Random;
 
 public class Season1 implements ISeason {
-    private HalloweenHeist plugin;
+    private HalloweenHeistPlugin plugin;
 
-    public Season1(HalloweenHeist plugin) {
+    public Season1(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
     }
 

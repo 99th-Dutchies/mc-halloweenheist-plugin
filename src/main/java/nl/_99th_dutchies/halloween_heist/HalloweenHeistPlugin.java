@@ -17,7 +17,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class HalloweenHeist extends JavaPlugin implements Listener {
+public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
     public FileConfiguration config = getConfig();
     public HeistObjectLocation heistObjectLocation;
     public int lastLocationBroadcastHour = -1;
@@ -38,8 +38,8 @@ public class HalloweenHeist extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new HeistObjectTrackingListener(this), this);
         Bukkit.getPluginManager().registerEvents(new HeistObjectSavingListener(this), this);
 
-        this.getCommand("kit").setExecutor(new CommandKit());
-        this.getCommand("trade").setExecutor(new CommandTrade());
+        this.getCommand("kit").setExecutor(new CommandKit(this));
+        this.getCommand("trade").setExecutor(new CommandTrade(this));
 
         if(!config.getBoolean("itemLoaded")) {
             this.season.spawnHeistObject();

@@ -1,6 +1,6 @@
 package nl._99th_dutchies.halloween_heist.util;
 
-import nl._99th_dutchies.halloween_heist.HalloweenHeist;
+import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
@@ -8,9 +8,9 @@ import java.time.LocalDateTime;
 import java.util.Random;
 
 public class LocationBroadcaster implements Runnable {
-    private HalloweenHeist plugin;
+    private HalloweenHeistPlugin plugin;
 
-    public LocationBroadcaster(HalloweenHeist plugin) {
+    public LocationBroadcaster(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
     }
 

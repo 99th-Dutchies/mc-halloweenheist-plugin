@@ -1,6 +1,6 @@
 package nl._99th_dutchies.halloween_heist.command;
 
-import nl._99th_dutchies.halloween_heist.HalloweenHeist;
+import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import nl._99th_dutchies.halloween_heist.util.InventoryItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,7 +15,11 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.util.ArrayList;
 
 public class CommandKit implements CommandExecutor {
-    HalloweenHeist plugin = HalloweenHeist.getPlugin(HalloweenHeist.class);
+    private HalloweenHeistPlugin plugin;
+
+    public CommandKit(HalloweenHeistPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

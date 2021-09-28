@@ -1,15 +1,15 @@
 package nl._99th_dutchies.halloween_heist.util;
 
-import nl._99th_dutchies.halloween_heist.HalloweenHeist;
+import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.bukkit.GameRule;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
 public class RealTimeCycle implements Runnable {
-    private HalloweenHeist plugin;
+    private HalloweenHeistPlugin plugin;
 
-    public RealTimeCycle(HalloweenHeist plugin) {
+    public RealTimeCycle(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
     }
 
