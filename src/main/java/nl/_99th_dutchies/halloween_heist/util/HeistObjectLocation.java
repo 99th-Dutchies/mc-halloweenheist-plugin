@@ -63,8 +63,6 @@ public class HeistObjectLocation {
     }
 
     public void find(Material heistObject) {
-        ItemStack dummyStack = new ItemStack(heistObject, 1);
-
         if(this.container == null) {
             System.out.println("Heist Object not found");
             return;
@@ -75,7 +73,7 @@ public class HeistObjectLocation {
                 for(Entity worldEntity : this.plugin.mainWorld.getEntities()) {
                     if (worldEntity instanceof Player) {
                         for (ItemStack invItemStack : ((Player) worldEntity).getInventory()) {
-                            if (invItemStack != null && invItemStack.isSimilar(dummyStack)) {
+                            if (invItemStack != null && invItemStack.getType().equals(heistObject)) {
                                 System.out.println("Heist Object found with player " + ((Player) worldEntity).getDisplayName() + " at [" + this.location.getX() + "," + this.location.getY() + "," + this.location.getZ() + "]");
                                 this.update(worldEntity.getLocation(), HeistObjectContainer.PLAYER);
                                 return;

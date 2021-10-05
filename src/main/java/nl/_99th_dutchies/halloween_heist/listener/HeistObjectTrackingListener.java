@@ -2,6 +2,7 @@ package nl._99th_dutchies.halloween_heist.listener;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import nl._99th_dutchies.halloween_heist.util.HeistObjectContainer;
+import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,7 +27,7 @@ public class HeistObjectTrackingListener implements Listener {
 
     @EventHandler
     public void onEntityPickupItem(EntityPickupItemEvent event) {
-        if(event.getItem().getItemStack().equals(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
+        if(event.getItem().getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
             if(event.getEntityType() == EntityType.PLAYER) {
                 this.plugin.heistObjectLocation.update(event.getEntity().getLocation(), HeistObjectContainer.PLAYER, (Player) event.getEntity());
             }
@@ -35,7 +36,7 @@ public class HeistObjectTrackingListener implements Listener {
 
     @EventHandler
     public void onInventoryPickupItem(InventoryPickupItemEvent event) {
-        if(event.getItem().getItemStack().equals(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
+        if(event.getItem().getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
             this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.STORAGE_BLOCK);
         }
     }
@@ -43,7 +44,7 @@ public class HeistObjectTrackingListener implements Listener {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event){
         for(ItemStack drop : event.getDrops()) {
-            if(drop.isSimilar(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
+            if(drop.getType().equals(this.plugin.season.getHeistObjectMaterial())) {
                 drop.setAmount(0);
             }
         }
@@ -51,7 +52,7 @@ public class HeistObjectTrackingListener implements Listener {
 
     @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
-        if(event.getItemDrop().getItemStack().isSimilar(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
+        if(event.getItemDrop().getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
             if(event.getPlayer().isDead()) {
                 this.plugin.heistObjectLocation.update(event.getItemDrop().getLocation(), HeistObjectContainer.DROPPED, null);
             } else {
@@ -62,7 +63,7 @@ public class HeistObjectTrackingListener implements Listener {
 
     @EventHandler
     public void onInventoryMoveItem(InventoryMoveItemEvent event) {
-        if(event.getItem().isSimilar(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
+        if(event.getItem().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
             this.plugin.heistObjectLocation.update(event.getDestination().getLocation(), HeistObjectContainer.STORAGE_BLOCK);
         }
     }
@@ -70,10 +71,10 @@ public class HeistObjectTrackingListener implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         if(!event.getInventory().getHolder().equals(event.getPlayer())) {
-            ItemStack dummy = new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1);
+            Material heistObject = this.plugin.season.getHeistObjectMaterial();
 
             for(ItemStack invItemStack : event.getInventory()) {
-                if(invItemStack != null && invItemStack.isSimilar(dummy)) {
+                if(invItemStack != null && invItemStack.getType().equals(heistObject)) {
                     if(event.getInventory().getType() == InventoryType.PLAYER) {
                         this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.PLAYER, (Player) event.getPlayer());
                     } else {
@@ -83,7 +84,7 @@ public class HeistObjectTrackingListener implements Listener {
                 }
             }
             for(ItemStack invItemStack : event.getPlayer().getInventory()) {
-                if(invItemStack != null && invItemStack.isSimilar(dummy)) {
+                if(invItemStack != null && invItemStack.getType().equals(heistObject)) {
                     if(event.getInventory().getType() == InventoryType.PLAYER) {
                         this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.PLAYER, (Player) event.getPlayer());
                     }

@@ -40,7 +40,7 @@ public class HeistObjectSavingListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
         if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
-                ((Item)event.getEntity()).getItemStack().equals(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
+                ((Item)event.getEntity()).getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
             event.setCancelled(true);
         }
     }
@@ -48,7 +48,7 @@ public class HeistObjectSavingListener implements Listener {
     @EventHandler
     public void onEntityCombust(EntityCombustEvent event) {
         if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
-                ((Item)event.getEntity()).getItemStack().equals(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
+                ((Item)event.getEntity()).getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
             event.setCancelled(true);
         }
     }
@@ -56,14 +56,14 @@ public class HeistObjectSavingListener implements Listener {
     @EventHandler
     public void onItemDespawn(ItemDespawnEvent event){
         if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
-                event.getEntity().getItemStack().equals(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
+                event.getEntity().getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onEntityPickupItem(EntityPickupItemEvent event) {
-        if(event.getItem().getItemStack().equals(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1)) &&
+        if(event.getItem().getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial()) &&
                 event.getEntityType() != EntityType.PLAYER) {
             event.setCancelled(true);
         }
@@ -72,7 +72,7 @@ public class HeistObjectSavingListener implements Listener {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event){
         for(ItemStack drop : event.getDrops()) {
-            if(drop.isSimilar(new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1))) {
+            if(drop.getType().equals(this.plugin.season.getHeistObjectMaterial())) {
                 drop.setAmount(0);
             }
         }
@@ -80,18 +80,18 @@ public class HeistObjectSavingListener implements Listener {
 
     private void doDropHeistObject(Player p) {
         PlayerInventory pi = p.getInventory();
-        ItemStack is = new ItemStack(this.plugin.season.getHeistObjectMaterial(), 1);
+        Material heistObject = this.plugin.season.getHeistObjectMaterial();
 
-        if(pi.getItemInMainHand().equals(is)) {
+        if(pi.getItemInMainHand().getType().equals(heistObject)) {
             p.dropItem(false);
         }
-        if(pi.getItemInOffHand().equals(is)) {
+        if(pi.getItemInOffHand().getType().equals(heistObject)) {
             p.getWorld().dropItem(p.getLocation(), pi.getItemInOffHand());
             pi.setItemInOffHand(null);
         }
         for(int i = 0; i < 36; i++) {
             ItemStack piItem = pi.getItem(i);
-            if(piItem != null && piItem.equals(is)) {
+            if(piItem != null && piItem.getType().equals(heistObject)) {
                 p.getWorld().dropItem(p.getLocation(), piItem);
                 pi.remove(piItem);
             }
