@@ -18,10 +18,12 @@ public class CommandTrade implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player p)) {
+        if (!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "Only players can use this command");
             return false;
         }
+
+        Player p = (Player) sender;
 
         int available = 0;
         int amount = 1;
