@@ -8,8 +8,8 @@ import java.util.List;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import de.beproud.scoreboard.ScoreboardProvider;
@@ -48,8 +48,9 @@ public class HeistProvider extends ScoreboardProvider {
         if(plugin.heistState.getInt("lastBroadcast.hour", -1) < 0) {
             lines.add(new ScoreboardText(ChatColor.YELLOW + "Unknown"));
         } else {
-            lines.add(new ScoreboardText(ChatColor.YELLOW + "X:" + ((int) plugin.heistState.getInt("lastBroadcast.location.x"))));
-            lines.add(new ScoreboardText(ChatColor.YELLOW + "Z:" + ((int) plugin.heistState.getInt("lastBroadcast.location.Z"))));
+            Location lastBroadcast = plugin.heistState.getLocation("lastBroadcast.location");
+            lines.add(new ScoreboardText(ChatColor.YELLOW + "X:" + ((int) lastBroadcast.getX())));
+            lines.add(new ScoreboardText(ChatColor.YELLOW + "Z:" + ((int) lastBroadcast.getZ())));
         }
 
         lines.add(new ScoreboardText(""));
