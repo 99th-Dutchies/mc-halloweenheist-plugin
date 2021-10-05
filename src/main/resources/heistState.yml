@@ -1,0 +1,10 @@
+itemLoaded: false
+lastBroadcast:
+  hour: -1
+  location:
+    x: 0
+    z: 0
+heistObject:
+  location:
+  container: DROPPED
+  lastPlayer:

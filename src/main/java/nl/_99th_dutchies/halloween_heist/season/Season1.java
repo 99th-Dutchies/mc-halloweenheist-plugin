@@ -27,7 +27,7 @@ public class Season1 implements ISeason {
 
     @Override
     public String getHeistObjectName() {
-        return MessageFormat.format("{0}{1}Medal of Valor", ChatColor.DARK_GREEN, ChatColor.BOLD);
+        return MessageFormat.format("{0}{1}Medal of Valor{2}", ChatColor.DARK_GREEN, ChatColor.BOLD, ChatColor.RESET);
     }
 
     @Override
@@ -83,8 +83,7 @@ public class Season1 implements ISeason {
         dropChestInventory.setItem(13, dropItemStack);
         this.plugin.heistObjectLocation.update(dropLocation, HeistObjectContainer.STORAGE_BLOCK, null);
 
-        this.plugin.config.set("itemLoaded", true);
-        this.plugin.saveConfig();
+        this.plugin.heistState.set("itemLoaded", true);
 
         System.out.println("Dropped " + this.getHeistObjectName() + " at [" + dropX + "," + dropY + "," + dropZ + "]");
     }

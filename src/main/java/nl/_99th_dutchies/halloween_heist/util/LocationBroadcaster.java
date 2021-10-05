@@ -17,13 +17,14 @@ public class LocationBroadcaster implements Runnable {
     @Override
     public void run() {
         LocalDateTime time = LocalDateTime.now();
+        int lastBroadcastHour = this.plugin.heistState.getInt("lastBroadcast.hour");
 
         if(time.getMinute() == 0 && time.getHour() >= 13 &&
-                (this.plugin.lastLocationBroadcastHour < 0 || time.getHour() > this.plugin.lastLocationBroadcastHour)) {
-            this.plugin.lastLocationBroadcastHour = time.getHour();
+                (lastBroadcastHour < 0 || time.getHour() > lastBroadcastHour)) {
+            this.plugin.heistState.set("lastBroadcast.hour", time.getHour());
 
             Location broadcastLocation = this.calcLocation();
-            this.plugin.lastLocationBroadcastLocation = broadcastLocation;
+            this.plugin.heistState.set("lastBroadcast.location", broadcastLocation);
 
             if(broadcastLocation == null) {
                 Bukkit.broadcastMessage("The " + this.plugin.season.getHeistObjectName() + " is very well hidden and could not be traced");

@@ -22,9 +22,8 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
     private static ScoreboardManager scoreboardManager;
 
     public final FileConfiguration config = getConfig();
+    public HeistState heistState;
     public HeistObjectLocation heistObjectLocation;
-    public int lastLocationBroadcastHour = -1;
-    public Location lastLocationBroadcastLocation;
     public World mainWorld;
     public ISeason season;
 
@@ -35,7 +34,10 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
 
         this.mainWorld = this.getServer().getWorld(this.config.getString("worldName"));
         this.setSeason();
-        this.heistObjectLocation = new HeistObjectLocation(this.mainWorld, null,null);
+
+        this.heistState = new HeistState(this);
+        this.heistObjectLocation = new HeistObjectLocation(this);
+
         this.scoreboardManager = new ScoreboardManager();
         this.startUpdateTask();
 
@@ -46,7 +48,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         this.getCommand("kit").setExecutor(new CommandKit(this));
         this.getCommand("trade").setExecutor(new CommandTrade(this));
 
-        if(!config.getBoolean("itemLoaded")) {
+        if(!heistState.getBoolean("itemLoaded")) {
             this.season.spawnHeistObject();
         }
 

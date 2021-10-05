@@ -1,7 +1,6 @@
 worldName: 99th_Precinct
 worldDimensions: 500
 itemOffset: 25
-itemLoaded: false
 realTimeCycle:
   active: true
   sunrise: 7:30
