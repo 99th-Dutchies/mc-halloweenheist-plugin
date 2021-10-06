@@ -4,16 +4,19 @@ import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.BlockInventoryHolder;
+import org.bukkit.inventory.InventoryHolder;
+
+import java.util.UUID;
 
 public class HeistObjectLocation {
     private final HalloweenHeistPlugin plugin;
-    public Location location;
     public HeistObjectContainer container;
+    public Location location;
     public Player lastPlayer = null;
+    public Entity storingEntity = null;
 
     public HeistObjectLocation(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
@@ -40,60 +43,80 @@ public class HeistObjectLocation {
         if(StringUtils.isEmpty(lp)) {
             this.lastPlayer = null;
         } else {
-            this.lastPlayer = Bukkit.getPlayer(lp);
+            this.lastPlayer = Bukkit.getPlayer(UUID.fromString(lp));
+        }
+
+        String se = this.plugin.heistState.getString("heistObject.storingEntity");
+        if(StringUtils.isEmpty(se)) {
+            this.storingEntity = null;
+        } else {
+            this.storingEntity = Bukkit.getEntity(UUID.fromString(se));
         }
     }
 
-    public void update(Location l, HeistObjectContainer c) {
-        this.location = l;
-        this.container = c;
+    public void resetPlayer() {
+        this.lastPlayer = null;
 
-        this.plugin.heistState.set("heistObject.location", l);
-        this.plugin.heistState.set("heistObject.container", c.name());
+        this.plugin.heistState.set("heistObject.lastPlayer", null);
     }
 
-    public void update(Location l, HeistObjectContainer c, Player p) {
+    public void updateDropped(Location l, Player p) {
+        this.container = HeistObjectContainer.DROPPED;
         this.location = l;
-        this.container = c;
         this.lastPlayer = p;
 
+        this.plugin.heistState.set("heistObject.container", HeistObjectContainer.DROPPED.name());
         this.plugin.heistState.set("heistObject.location", l);
-        this.plugin.heistState.set("heistObject.container", c == null ? null : c.name());
-        this.plugin.heistState.set("heistObject.lastPlayer", p == null ? null : p.getUniqueId().toString());
+        this.plugin.heistState.set("heistObject.lastPlayer", p.getUniqueId().toString());
     }
 
-    public void find(Material heistObject) {
-        if(this.container == null) {
-            System.out.println("Heist Object not found");
-            return;
-        }
+    public void updatePlayer(Location l, Player p) {
+        this.container = HeistObjectContainer.PLAYER;
+        this.location = l;
+        this.lastPlayer = p;
 
+        this.plugin.heistState.set("heistObject.container", HeistObjectContainer.PLAYER.name());
+        this.plugin.heistState.set("heistObject.location", l);
+        this.plugin.heistState.set("heistObject.lastPlayer", p.getUniqueId().toString());
+    }
+
+    public void updateInventoryHolder(InventoryHolder i) {
+        if(i instanceof Entity) {
+            this.updateStorageEntity((Entity) i);
+        } else if (i instanceof BlockInventoryHolder) {
+            this.updateStorageBlock((BlockInventoryHolder) i);
+        }
+    }
+
+    public void updateStorageBlock(BlockInventoryHolder b) {
+        this.container = HeistObjectContainer.STORAGE_BLOCK;
+        this.location = b.getBlock().getLocation();
+
+        this.plugin.heistState.set("heistObject.container", HeistObjectContainer.STORAGE_BLOCK.name());
+        this.plugin.heistState.set("heistObject.location", b.getBlock().getLocation());
+    }
+
+    public void updateStorageEntity(Entity e) {
+        this.container = HeistObjectContainer.STORAGE_ENTITY;
+        this.location = e.getLocation();
+        this.storingEntity = e;
+
+        this.plugin.heistState.set("heistObject.container", HeistObjectContainer.STORAGE_ENTITY.name());
+        this.plugin.heistState.set("heistObject.location", e.getLocation());
+        this.plugin.heistState.set("heistObject.storingEntity", e.getUniqueId().toString());
+    }
+
+    public Location getLocation() {
         switch (this.container) {
             case PLAYER:
-                for(Entity worldEntity : this.plugin.mainWorld.getEntities()) {
-                    if (worldEntity instanceof Player) {
-                        for (ItemStack invItemStack : ((Player) worldEntity).getInventory()) {
-                            if (invItemStack != null && invItemStack.getType().equals(heistObject)) {
-                                System.out.println("Heist Object found with player " + ((Player) worldEntity).getDisplayName() + " at [" + this.location.getX() + "," + this.location.getY() + "," + this.location.getZ() + "]");
-                                this.update(worldEntity.getLocation(), HeistObjectContainer.PLAYER);
-                                return;
-                            }
-                        }
-                    }
-                }
-                break;
+                return Bukkit.getPlayer(lastPlayer.getUniqueId()).getLocation();
             case STORAGE_BLOCK:
-                System.out.println("Heist Object found with block at [" + this.location.getX() + "," + this.location.getY() + "," + this.location.getZ() +"]");
-                return;
             case DROPPED:
-                System.out.println("Heist Object dropped at [" + this.location.getX() + "," + this.location.getY() + "," + this.location.getZ() +"]");
-                return;
+                return this.location;
+            case STORAGE_ENTITY:
+                return Bukkit.getEntity(storingEntity.getUniqueId()).getLocation();
             default:
-                System.out.println("Heist Object not found");
-                return;
+                return null;
         }
-
-        System.out.println("Heist Object not found");
-        this.update(null, null);
     }
 }

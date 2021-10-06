@@ -78,7 +78,6 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         event.getEntity().removeMetadata("nl._99th_dutchies.halloween_heist.hasUsedKit", this);
-        this.heistObjectLocation.find(this.season.getHeistObjectMaterial());
     }
 
     @EventHandler

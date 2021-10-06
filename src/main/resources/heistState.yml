@@ -8,3 +8,4 @@ heistObject:
   location:
   container: DROPPED
   lastPlayer:
+  storingEntity:

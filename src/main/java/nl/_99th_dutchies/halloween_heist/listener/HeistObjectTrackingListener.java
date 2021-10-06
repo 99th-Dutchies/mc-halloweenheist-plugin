@@ -1,7 +1,6 @@
 package nl._99th_dutchies.halloween_heist.listener;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
-import nl._99th_dutchies.halloween_heist.util.HeistObjectContainer;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -29,7 +28,7 @@ public class HeistObjectTrackingListener implements Listener {
     public void onEntityPickupItem(EntityPickupItemEvent event) {
         if(event.getItem().getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
             if(event.getEntityType() == EntityType.PLAYER) {
-                this.plugin.heistObjectLocation.update(event.getEntity().getLocation(), HeistObjectContainer.PLAYER, (Player) event.getEntity());
+                this.plugin.heistObjectLocation.updatePlayer(event.getEntity().getLocation(), (Player) event.getEntity());
             }
         }
     }
@@ -37,7 +36,7 @@ public class HeistObjectTrackingListener implements Listener {
     @EventHandler
     public void onInventoryPickupItem(InventoryPickupItemEvent event) {
         if(event.getItem().getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
-            this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.STORAGE_BLOCK);
+            this.plugin.heistObjectLocation.updateInventoryHolder(event.getInventory().getHolder());
         }
     }
 
@@ -54,9 +53,9 @@ public class HeistObjectTrackingListener implements Listener {
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         if(event.getItemDrop().getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
             if(event.getPlayer().isDead()) {
-                this.plugin.heistObjectLocation.update(event.getItemDrop().getLocation(), HeistObjectContainer.DROPPED, null);
+                this.plugin.heistObjectLocation.updateDropped(event.getItemDrop().getLocation(), null);
             } else {
-                this.plugin.heistObjectLocation.update(event.getItemDrop().getLocation(), HeistObjectContainer.DROPPED, event.getPlayer());
+                this.plugin.heistObjectLocation.updateDropped(event.getItemDrop().getLocation(), event.getPlayer());
             }
         }
     }
@@ -64,7 +63,7 @@ public class HeistObjectTrackingListener implements Listener {
     @EventHandler
     public void onInventoryMoveItem(InventoryMoveItemEvent event) {
         if(event.getItem().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
-            this.plugin.heistObjectLocation.update(event.getDestination().getLocation(), HeistObjectContainer.STORAGE_BLOCK);
+            this.plugin.heistObjectLocation.updateInventoryHolder(event.getDestination().getHolder());
         }
     }
 
@@ -76,16 +75,16 @@ public class HeistObjectTrackingListener implements Listener {
             for(ItemStack invItemStack : event.getInventory()) {
                 if(invItemStack != null && invItemStack.getType().equals(heistObject)) {
                     if(event.getInventory().getType() == InventoryType.PLAYER) {
-                        this.plugin.heistObjectLocation.update(event.getPlayer().getLocation(), HeistObjectContainer.PLAYER, (Player) event.getPlayer());
+                        this.plugin.heistObjectLocation.updatePlayer(event.getPlayer().getLocation(), (Player) event.getPlayer());
                     } else {
-                        this.plugin.heistObjectLocation.update(event.getInventory().getLocation(), HeistObjectContainer.STORAGE_BLOCK, (Player) event.getPlayer());
+                        this.plugin.heistObjectLocation.updateInventoryHolder(event.getInventory().getHolder());
                     }
                     return;
                 }
             }
             for(ItemStack invItemStack : event.getPlayer().getInventory()) {
                 if(invItemStack != null && invItemStack.getType().equals(heistObject)) {
-                    this.plugin.heistObjectLocation.update(event.getPlayer().getLocation(), HeistObjectContainer.PLAYER, (Player) event.getPlayer());
+                    this.plugin.heistObjectLocation.updatePlayer(event.getPlayer().getLocation(), (Player) event.getPlayer());
                     return;
                 }
             }

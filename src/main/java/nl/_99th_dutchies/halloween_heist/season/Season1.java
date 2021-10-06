@@ -1,7 +1,6 @@
 package nl._99th_dutchies.halloween_heist.season;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
-import nl._99th_dutchies.halloween_heist.util.HeistObjectContainer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -81,7 +80,8 @@ public class Season1 implements ISeason {
         dropItemStack.setItemMeta(dropItemMeta);
 
         dropChestInventory.setItem(13, dropItemStack);
-        this.plugin.heistObjectLocation.update(dropLocation, HeistObjectContainer.STORAGE_BLOCK, null);
+        this.plugin.heistObjectLocation.resetPlayer();
+        this.plugin.heistObjectLocation.updateInventoryHolder(dropChest.getBlockInventory().getHolder());
 
         this.plugin.heistState.set("itemLoaded", true);
 
