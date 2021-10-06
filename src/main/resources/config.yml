@@ -7,3 +7,6 @@ realTimeCycle:
   sunset: 17:07
 allowEnderchest: false
 season: 1
+kit:
+  enabled: true
+  cooldown: 300

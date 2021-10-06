@@ -23,6 +23,11 @@ public class CommandKit implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if(!this.plugin.config.getBoolean("kit.enabled")) {
+            sender.sendMessage(ChatColor.RED + "This command has not been enabled for your game");
+            return true;
+        }
+
         if (!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "Only players can use this command");
             return false;
@@ -32,6 +37,9 @@ public class CommandKit implements CommandExecutor {
 
         if (p.hasMetadata("nl._99th_dutchies.halloween_heist.hasUsedKit")) {
             sender.sendMessage(ChatColor.RED + "You already obtained your kit");
+        } else if(p.hasMetadata("nl._99th_dutchies.halloween_heist.hasUsedKitTime") &&
+                p.getMetadata("nl._99th_dutchies.halloween_heist.hasUsedKitTime").get(0).asInt() + this.plugin.config.getInt("kit.cooldown") >= (System.currentTimeMillis() / 1000L)) {
+            sender.sendMessage(ChatColor.RED + "You have to wait " + this.plugin.config.getInt("kit.cooldown") + " seconds between using /kit.");
         } else {
             ArrayList<InventoryItem> items = new ArrayList<>();
             items.add(new InventoryItem(Material.CHAINMAIL_BOOTS, 1, "Tactical gear"));
@@ -65,6 +73,7 @@ public class CommandKit implements CommandExecutor {
             }
 
             p.setMetadata("nl._99th_dutchies.halloween_heist.hasUsedKit", new FixedMetadataValue(plugin, true));
+            p.setMetadata("nl._99th_dutchies.halloween_heist.hasUsedKitTime", new FixedMetadataValue(plugin, (System.currentTimeMillis() / 1000L)));
         }
 
         return true;
