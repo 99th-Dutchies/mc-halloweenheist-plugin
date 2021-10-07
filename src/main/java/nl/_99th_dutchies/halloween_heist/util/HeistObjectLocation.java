@@ -60,14 +60,12 @@ public class HeistObjectLocation {
         this.plugin.heistState.set("heistObject.lastPlayer", null);
     }
 
-    public void updateDropped(Location l, Player p) {
+    public void updateDropped(Location l) {
         this.container = HeistObjectContainer.DROPPED;
         this.location = l;
-        this.lastPlayer = p;
 
         this.plugin.heistState.set("heistObject.container", HeistObjectContainer.DROPPED.name());
         this.plugin.heistState.set("heistObject.location", l);
-        this.plugin.heistState.set("heistObject.lastPlayer", p.getUniqueId().toString());
     }
 
     public void updatePlayer(Location l, Player p) {
