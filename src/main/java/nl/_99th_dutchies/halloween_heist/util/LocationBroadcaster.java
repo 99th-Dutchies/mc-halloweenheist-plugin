@@ -3,6 +3,7 @@ package nl._99th_dutchies.halloween_heist.util;
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
 import java.util.Random;
@@ -30,6 +31,16 @@ public class LocationBroadcaster implements Runnable {
                 Bukkit.broadcastMessage("The " + this.plugin.season.getHeistObjectName() + " is very well hidden and could not be traced");
             } else {
                 Bukkit.broadcastMessage("The " + this.plugin.season.getHeistObjectName() + " can be found somewhere around [X:" + ((int) broadcastLocation.getX()) + ",Z:" + ((int) broadcastLocation.getZ()) + "]");
+            }
+
+            if(time.getHour() == 13) {
+                for(Player p : this.plugin.getServer().getOnlinePlayers()) {
+                    p.playSound(p.getLocation(), "heist.its_heist_time", 1, 1);
+                }
+            } else {
+                for(Player p : this.plugin.getServer().getOnlinePlayers()) {
+                    p.playSound(p.getLocation(), "heist.halloweeeen", 1, 1);
+                }
             }
         }
     }

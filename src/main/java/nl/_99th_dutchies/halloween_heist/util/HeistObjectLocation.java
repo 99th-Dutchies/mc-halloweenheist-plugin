@@ -69,6 +69,10 @@ public class HeistObjectLocation {
     }
 
     public void updatePlayer(Location l, Player p) {
+        if(this.lastPlayer == null || !this.lastPlayer.getUniqueId().equals(p.getUniqueId())) {
+            p.playSound(p.getLocation(), "heist.halloween_muhahahah", 1, 1);
+        }
+
         this.container = HeistObjectContainer.PLAYER;
         this.location = l;
         this.lastPlayer = p;

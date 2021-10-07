@@ -21,6 +21,7 @@ public class WinnerAnnouncer implements Runnable {
             this.plugin.season.sendWinnerMessage(this.plugin.heistObjectLocation.lastPlayer);
 
             for(Player p : this.plugin.getServer().getOnlinePlayers()) {
+                p.playSound(p.getLocation(), "heist.heists_are_dumb", 1, 1);
                 p.setGameMode(GameMode.CREATIVE);
             }
         }
