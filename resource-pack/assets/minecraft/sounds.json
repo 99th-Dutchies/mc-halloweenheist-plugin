@@ -1,0 +1,22 @@
+{
+    "heist.halloweeeen": {
+        "sounds": [
+            "custom/halloweeeen"
+        ]
+    },
+	"heist.halloween_muhahahah": {
+        "sounds": [
+            "custom/halloween_muhahahah"
+        ]
+    },
+	"heist.heists_are_dumb": {
+        "sounds": [
+            "custom/heists_are_dumb"
+        ]
+    },
+	"heist.its_heist_time": {
+        "sounds": [
+            "custom/its_heist_time"
+        ]
+    }
+}
