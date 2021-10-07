@@ -41,21 +41,9 @@ public class HeistObjectTrackingListener implements Listener {
     }
 
     @EventHandler
-    public void onEntityDeath(EntityDeathEvent event){
-        for(ItemStack drop : event.getDrops()) {
-            if(drop.getType().equals(this.plugin.season.getHeistObjectMaterial())) {
-                drop.setAmount(0);
-            }
-        }
-    }
-
-    @EventHandler
     public void onPlayerDropItem(PlayerDropItemEvent event) {
         if(event.getItemDrop().getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
             this.plugin.heistObjectLocation.updateDropped(event.getItemDrop().getLocation());
-            if(event.getPlayer().isDead()) {
-                this.plugin.heistObjectLocation.resetPlayer();
-            }
         }
     }
 
