@@ -45,10 +45,12 @@ public class HeistProvider extends ScoreboardProvider {
 
         lines.add(new ScoreboardText(""));
         lines.add(new ScoreboardText(MessageFormat.format("{0}{1}Last location:", ChatColor.RED, ChatColor.BOLD)));
-        if(plugin.heistState.getInt("lastBroadcast.hour", -1) < 0) {
+        Location lastBroadcast = plugin.heistState.getLocation("lastBroadcast.location");
+        
+        if(plugin.heistState.getInt("lastBroadcast.hour", -1) < 0 || lastBroadcast == null) {
             lines.add(new ScoreboardText(ChatColor.YELLOW + "Unknown"));
         } else {
-            Location lastBroadcast = plugin.heistState.getLocation("lastBroadcast.location");
+            
             lines.add(new ScoreboardText(ChatColor.YELLOW + "X:" + ((int) lastBroadcast.getX())));
             lines.add(new ScoreboardText(ChatColor.YELLOW + "Z:" + ((int) lastBroadcast.getZ())));
         }
