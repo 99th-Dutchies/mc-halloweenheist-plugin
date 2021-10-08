@@ -17,7 +17,7 @@ public class WinnerAnnouncer implements Runnable {
     public void run() {
         LocalDateTime time = LocalDateTime.now();
 
-        if(time.getMinute() == 0 && time.getHour() == 0) {
+        if(time.getSecond() == 0 && time.getMinute() == 0 && time.getHour() == 0) {
             this.plugin.season.sendWinnerMessage(this.plugin.heistObjectLocation.lastPlayer);
 
             for(Player p : this.plugin.getServer().getOnlinePlayers()) {
