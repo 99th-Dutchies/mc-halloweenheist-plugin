@@ -20,11 +20,15 @@ public class LocationBroadcaster implements Runnable {
     public void run() {
         LocalDateTime start = LocalDateTime.parse(this.plugin.config.getString("gameStart", "2021-10-31 00:00:00"));
         LocalDateTime time = LocalDateTime.now(ZoneId.of(this.plugin.config.getString("timezone")));
-        int lastBroadcastHour = this.plugin.heistState.getInt("lastBroadcast.hour");
+        String lastBroadcastTimeString = this.plugin.heistState.getString("lastBroadcast.time");
+        LocalDateTime lastBroadcastTime = null;
+        if(lastBroadcastTimeString != null) {
+            lastBroadcastTime = LocalDateTime.parse(lastBroadcastTimeString);
+        }
 
         if(time.getSecond() == 0 && time.getMinute() == 0 && (time.isEqual(start) || time.isAfter(start)) &&
-                (lastBroadcastHour < 0 || time.getHour() > lastBroadcastHour)) {
-            this.plugin.heistState.set("lastBroadcast.hour", time.getHour());
+                (lastBroadcastTime == null || time.isAfter(lastBroadcastTime))) {
+            this.plugin.heistState.set("lastBroadcast.time", time.toString());
 
             Location broadcastLocation = this.calcLocation();
             this.plugin.heistState.set("lastBroadcast.location", broadcastLocation);
