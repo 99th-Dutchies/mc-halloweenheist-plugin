@@ -1,4 +1,5 @@
 worldName: 99th_Precinct
+timezone: Europe/Amsterdam
 worldDimensions: 500
 itemOffset: 25
 realTimeCycle:

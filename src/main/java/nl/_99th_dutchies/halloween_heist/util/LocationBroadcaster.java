@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Random;
 
 public class LocationBroadcaster implements Runnable {
@@ -17,7 +18,7 @@ public class LocationBroadcaster implements Runnable {
 
     @Override
     public void run() {
-        LocalDateTime time = LocalDateTime.now();
+        LocalDateTime time = LocalDateTime.now(ZoneId.of(this.plugin.config.getString("timezone")));
         int lastBroadcastHour = this.plugin.heistState.getInt("lastBroadcast.hour");
 
         if(time.getMinute() == 0 && time.getHour() >= 13 &&

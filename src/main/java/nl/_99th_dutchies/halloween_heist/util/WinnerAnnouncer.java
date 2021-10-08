@@ -5,6 +5,7 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 public class WinnerAnnouncer implements Runnable {
     private final HalloweenHeistPlugin plugin;
@@ -15,7 +16,7 @@ public class WinnerAnnouncer implements Runnable {
 
     @Override
     public void run() {
-        LocalDateTime time = LocalDateTime.now();
+        LocalDateTime time = LocalDateTime.now(ZoneId.of(this.plugin.config.getString("timezone")));
 
         if(time.getSecond() == 0 && time.getMinute() == 0 && time.getHour() == 0) {
             this.plugin.season.sendWinnerMessage(this.plugin.heistObjectLocation.lastPlayer);

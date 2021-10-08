@@ -2,6 +2,7 @@ package nl._99th_dutchies.halloween_heist.scoreboard.type;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +29,12 @@ public class HeistProvider extends ScoreboardProvider {
      */
     @Override
     public List<ScoreboardText> getLines(Player p) {
+        HalloweenHeistPlugin plugin = HalloweenHeistPlugin.getPlugin(HalloweenHeistPlugin.class);
+
         List<ScoreboardText> lines = new ArrayList<>();
 
         LocalDateTime end = LocalDateTime.parse("2021-10-31T00:00:00");
-        long timeTillEnd = LocalDateTime.now().until(end, ChronoUnit.SECONDS);
+        long timeTillEnd = LocalDateTime.now(ZoneId.of(plugin.config.getString("timezone"))).until(end, ChronoUnit.SECONDS);
 
         lines.add(new ScoreboardText(""));
         lines.add(new ScoreboardText(MessageFormat.format("{0}{1}Time left:", ChatColor.RED, ChatColor.BOLD)));
@@ -40,8 +43,6 @@ public class HeistProvider extends ScoreboardProvider {
                         StringUtils.leftPad((int) Math.floor(timeTillEnd / 3600) + "", 2, "0"),
                         StringUtils.leftPad((int) Math.floor((timeTillEnd % 3600) / 60) + "", 2, "0"),
                         StringUtils.leftPad((int) Math.floor(timeTillEnd % 60) + "", 2, "0"))));
-
-        HalloweenHeistPlugin plugin = HalloweenHeistPlugin.getPlugin(HalloweenHeistPlugin.class);
 
         lines.add(new ScoreboardText(""));
         lines.add(new ScoreboardText(MessageFormat.format("{0}{1}Last location:", ChatColor.RED, ChatColor.BOLD)));
