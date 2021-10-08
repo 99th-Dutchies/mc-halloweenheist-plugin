@@ -14,7 +14,7 @@ public class RealTimeCycle implements Runnable {
     }
 
     public void run() {
-        final LocalDateTime time = LocalDateTime.now(ZoneId.of(this.plugin.config.getString("timezone")));
+        final LocalDateTime time = LocalDateTime.now(ZoneId.of(this.plugin.config.getString("timezone", "UTC")));
         final int hours = time.getHour();
         final int minutes = hours * 60 + time.getMinute();
         final int seconds = minutes * 60 + time.getSecond();
