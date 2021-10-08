@@ -33,7 +33,7 @@ public class HeistProvider extends ScoreboardProvider {
 
         List<ScoreboardText> lines = new ArrayList<>();
 
-        LocalDateTime end = LocalDateTime.parse("2021-10-31T00:00:00");
+        LocalDateTime end = LocalDateTime.parse(plugin.config.getString("gameEnd"));
         long timeTillEnd = LocalDateTime.now(ZoneId.of(plugin.config.getString("timezone"))).until(end, ChronoUnit.SECONDS);
 
         lines.add(new ScoreboardText(""));
@@ -51,7 +51,6 @@ public class HeistProvider extends ScoreboardProvider {
         if(plugin.heistState.getInt("lastBroadcast.hour", -1) < 0 || lastBroadcast == null) {
             lines.add(new ScoreboardText(ChatColor.YELLOW + "Unknown"));
         } else {
-            
             lines.add(new ScoreboardText(ChatColor.YELLOW + "X:" + ((int) lastBroadcast.getX())));
             lines.add(new ScoreboardText(ChatColor.YELLOW + "Z:" + ((int) lastBroadcast.getZ())));
         }
