@@ -16,10 +16,10 @@ public class PlayerScoreboard {
 
     private ScoreboardProvider provider;
 
-    private Player player;
+    private final Player player;
 
-    private Scoreboard scoreboard;
-    private Objective objective;
+    private final Scoreboard scoreboard;
+    private final Objective objective;
 
     private boolean active;
 

@@ -10,7 +10,7 @@ import de.beproud.scoreboard.ScoreboardProvider;
 import de.beproud.scoreboard.ScoreboardText;
 
 public class DefaultProvider extends ScoreboardProvider {
-    private HashMap<ProviderType, ScoreboardProvider> defaultProvider;
+    private final HashMap<ProviderType, ScoreboardProvider> defaultProvider;
 
     public DefaultProvider() {
         this.defaultProvider = new HashMap<>();
@@ -29,7 +29,7 @@ public class DefaultProvider extends ScoreboardProvider {
     }
 
     public enum ProviderType {
-        HEIST;
+        HEIST
     }
 
 }

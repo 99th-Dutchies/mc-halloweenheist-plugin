@@ -17,7 +17,7 @@ public class ScoreboardText {
         if (text.length() > 16) {
             this.extended = true;
 
-            this.extendedText = text.substring(16, text.length());
+            this.extendedText = text.substring(16);
             this.text = text.substring(0, 16);
         } else {
             this.text = text;

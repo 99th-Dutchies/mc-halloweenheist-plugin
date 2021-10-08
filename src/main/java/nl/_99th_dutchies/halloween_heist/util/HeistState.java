@@ -13,9 +13,9 @@ import java.util.logging.Level;
 import static org.bukkit.Bukkit.getLogger;
 
 public class HeistState {
-    private HalloweenHeistPlugin plugin;
-    private File configFile;
-    private FileConfiguration config;
+    private final HalloweenHeistPlugin plugin;
+    private final File configFile;
+    private final FileConfiguration config;
 
     public HeistState(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
