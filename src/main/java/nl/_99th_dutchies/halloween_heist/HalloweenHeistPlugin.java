@@ -2,6 +2,7 @@ package nl._99th_dutchies.halloween_heist;
 
 import nl._99th_dutchies.halloween_heist.command.CommandKit;
 import nl._99th_dutchies.halloween_heist.command.CommandTrade;
+import nl._99th_dutchies.halloween_heist.listener.AntiGriefingListener;
 import nl._99th_dutchies.halloween_heist.listener.HeistObjectSavingListener;
 import nl._99th_dutchies.halloween_heist.listener.HeistObjectTrackingListener;
 import nl._99th_dutchies.halloween_heist.scoreboard.ScoreboardManager;
@@ -44,6 +45,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents(new HeistObjectTrackingListener(this), this);
         Bukkit.getPluginManager().registerEvents(new HeistObjectSavingListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new AntiGriefingListener(this), this);
 
         this.getCommand("kit").setExecutor(new CommandKit(this));
         this.getCommand("trade").setExecutor(new CommandTrade(this));

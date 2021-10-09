@@ -13,3 +13,4 @@ season: 1
 kit:
   enabled: true
   cooldown: 300
+antiGriefing: 20

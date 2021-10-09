@@ -60,6 +60,9 @@ Once you have your server properly installed, download the latest version of the
   -- `cooldown`  
   *Default `300`*  
   Cooldown of the `/kit` command in seconds.  
+- `antiGriefing`  
+  *Default `20`*  
+  The distance from (0,0) which will be protected against griefing.
 
 ## Development
 Want to contribute? Great!
