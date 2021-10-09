@@ -1,4 +1,5 @@
 itemLoaded: false
+announced: false
 lastBroadcast:
   time:
   location:

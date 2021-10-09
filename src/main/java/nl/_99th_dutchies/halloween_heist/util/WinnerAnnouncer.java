@@ -19,13 +19,15 @@ public class WinnerAnnouncer implements Runnable {
         LocalDateTime end = LocalDateTime.parse(this.plugin.config.getString("gameEnd", "2021-11-01 00:00:00"));
         LocalDateTime time = LocalDateTime.now(ZoneId.of(this.plugin.config.getString("timezone", "UTC")));
 
-        if(time.isEqual(end) || time.isAfter(end)) {
+        if(!this.plugin.heistState.getBoolean("announced", false) && (time.isEqual(end) || time.isAfter(end))) {
             this.plugin.season.sendWinnerMessage(this.plugin.heistObjectLocation.lastPlayer);
 
             for(Player p : this.plugin.getServer().getOnlinePlayers()) {
                 p.playSound(p.getLocation(), "heist.heists_are_dumb", 1, 1);
                 p.setGameMode(GameMode.CREATIVE);
             }
+
+            this.plugin.heistState.set("announced", true);
         }
     }
 }
