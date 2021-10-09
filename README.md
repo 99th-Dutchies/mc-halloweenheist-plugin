@@ -1,7 +1,13 @@
 # Halloween Heist plugin
 #### _Heists are dumb_
 
-Halloween Heist for minecraft is a Spigot-based plugin to allow you to play a game of Halloween Heist. Halloween Heist is a recurring event in the comedy show Brooklyn Nine-Nine.
+This Halloween Heist plugin creates a minigame based on the tv series Brooklyn Nine-Nine. The main goal of the minigame is to possess the Medal of Valor at exactly midnight.  The player that has the item at midnight will be titled an amazing player / genius.  
+The item will be randomly spawned in the world in a chest. At 13.00 the location of the item will be sent in the chat and updated on the sidebar. But this location is not exactly accurate, the item is in 10 blocks of these coordinates. From then on, the location of the item will be sent in the chat every hour, but that still won't be the exact location.  
+In order to possess the Medal of Valor at the end of the day, players can survival to get resources and create plans to capture the Medal. If you die or disconnect from the server, the Medal will be dropped.  
+And the time will correspond with the time in real life, the later it gets, more zombies will spawn...
+To speed up the game, you can claim a kit with /kit, this can only be used once every life.  
+
+####It's heist time!
 
 ## Requirements
 
