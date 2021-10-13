@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public interface ISeason {
+    Material getHeistObjectSpawncontainer();
     Material getHeistObjectMaterial();
     String getHeistObjectName();
     void spawnHeistObject();

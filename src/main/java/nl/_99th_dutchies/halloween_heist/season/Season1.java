@@ -20,6 +20,11 @@ public class Season1 implements ISeason {
     }
 
     @Override
+    public Material getHeistObjectSpawncontainer() {
+        return Material.ENDER_CHEST;
+    }
+
+    @Override
     public Material getHeistObjectMaterial() {
         return Material.TOTEM_OF_UNDYING;
     }
@@ -70,7 +75,7 @@ public class Season1 implements ISeason {
         int dropY = rand.nextInt(world.getHighestBlockYAt(dropX, dropZ) - 4) + 5;
         Location dropLocation = new Location(world, dropX, dropY, dropZ);
         Block dropBlock = dropLocation.getBlock();
-        dropBlock.setType(Material.CHEST);
+        dropBlock.setType(this.getHeistObjectMaterial());
         Chest dropChest = (Chest)dropBlock.getState();
         Inventory dropChestInventory = dropChest.getBlockInventory();
 
