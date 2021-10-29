@@ -21,7 +21,7 @@ public class Season1 implements ISeason {
 
     @Override
     public Material getHeistObjectSpawncontainer() {
-        return Material.ENDER_CHEST;
+        return Material.TRAPPED_CHEST;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class Season1 implements ISeason {
         int dropY = rand.nextInt(world.getHighestBlockYAt(dropX, dropZ) - 4) + 5;
         Location dropLocation = new Location(world, dropX, dropY, dropZ);
         Block dropBlock = dropLocation.getBlock();
-        dropBlock.setType(this.getHeistObjectMaterial());
+        dropBlock.setType(this.getHeistObjectSpawncontainer());
         Chest dropChest = (Chest)dropBlock.getState();
         Inventory dropChestInventory = dropChest.getBlockInventory();
 
