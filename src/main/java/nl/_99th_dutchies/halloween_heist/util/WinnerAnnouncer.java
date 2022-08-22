@@ -16,7 +16,7 @@ public class WinnerAnnouncer implements Runnable {
 
     @Override
     public void run() {
-        LocalDateTime end = LocalDateTime.parse(this.plugin.config.getString("gameEnd", "2021-11-01 00:00:00"));
+        LocalDateTime end = this.plugin.getGameEnd();
         LocalDateTime time = LocalDateTime.now(ZoneId.of(this.plugin.config.getString("timezone", "UTC")));
 
         if(!this.plugin.heistState.getBoolean("announced", false) && (time.isEqual(end) || time.isAfter(end))) {

@@ -6,7 +6,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Random;
 
 public class LocationBroadcaster implements Runnable {
@@ -18,8 +17,8 @@ public class LocationBroadcaster implements Runnable {
 
     @Override
     public void run() {
-        LocalDateTime start = LocalDateTime.parse(this.plugin.config.getString("gameStart", "2021-10-31 00:00:00"));
-        LocalDateTime time = LocalDateTime.now(ZoneId.of(this.plugin.config.getString("timezone", "UTC")));
+        LocalDateTime start = this.plugin.getGameStart();
+        LocalDateTime time = this.plugin.getLocalNow();
         String lastBroadcastTimeString = this.plugin.heistState.getString("lastBroadcast.time");
         LocalDateTime lastBroadcastTime = null;
         if(lastBroadcastTimeString != null) {

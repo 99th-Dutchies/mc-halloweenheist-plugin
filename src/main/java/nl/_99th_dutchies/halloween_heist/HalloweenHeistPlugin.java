@@ -19,6 +19,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+
 public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
     private static ScoreboardManager scoreboardManager;
 
@@ -40,7 +44,8 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         this.heistObjectLocation = new HeistObjectLocation(this);
 
         this.scoreboardManager = new ScoreboardManager();
-        this.startUpdateTask();
+
+        this.startTimedTasks();
 
         Bukkit.getPluginManager().registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents(new HeistObjectTrackingListener(this), this);
@@ -71,7 +76,25 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         }
     }
 
-    private void startUpdateTask() {
+    public LocalDateTime getLocalNow() {
+        return LocalDateTime.now(ZoneId.of(this.config.getString("timezone", "UTC")));
+    }
+
+    public LocalDateTime getGameStart() {
+        int year = this.getLocalNow().getYear();
+        return LocalDateTime.parse(this.config.getString("gameStart", year + "-10-31 00:00:00"));
+    }
+
+    public LocalDateTime getGameEnd() {
+        int year = this.getLocalNow().getYear();
+        return LocalDateTime.parse(this.config.getString("gameEnd", year + "-11-01 00:00:00"));
+    }
+
+    public long getTimeTillEnd() {
+        return this.getLocalNow().until(this.getGameEnd(), ChronoUnit.SECONDS);
+    }
+
+    private void startTimedTasks() {
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             scoreboardManager.getPlayerScoreboards().values().forEach((scoreboard) -> scoreboard.update());
         }, 0L, 1L); // Very fast, every tick.

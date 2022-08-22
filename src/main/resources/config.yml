@@ -2,8 +2,8 @@ worldName: 99th_Precinct
 timezone: Europe/Amsterdam
 worldDimensions: 500
 itemOffset: 25
-gameStart: '2021-10-31T00:00:00'
-gameEnd: '2021-11-01T00:00:00'
+gameStart: '2022-10-31T00:00:00'
+gameEnd: '2022-11-01T00:00:00'
 realTimeCycle:
   active: true
   sunrise: 7:30

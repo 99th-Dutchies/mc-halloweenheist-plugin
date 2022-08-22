@@ -33,8 +33,7 @@ public class HeistProvider extends ScoreboardProvider {
 
         List<ScoreboardText> lines = new ArrayList<>();
 
-        LocalDateTime end = LocalDateTime.parse(plugin.config.getString("gameEnd", "2021-11-01 00:00:00"));
-        long timeTillEnd = LocalDateTime.now(ZoneId.of(plugin.config.getString("timezone", "UTC"))).until(end, ChronoUnit.SECONDS);
+        long timeTillEnd = plugin.getTimeTillEnd();
 
         if(timeTillEnd >= 0) {
             lines.add(new ScoreboardText(""));
