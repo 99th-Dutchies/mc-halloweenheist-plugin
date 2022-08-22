@@ -35,38 +35,37 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        // Load config
         config.options().copyDefaults(true);
         saveConfig();
 
+        // Load world
         this.mainWorld = this.getServer().getWorld(this.config.getString("worldName"));
         this.setSeason();
 
-        this.heistState = new HeistState(this);
-        this.heistObjectLocation = new HeistObjectLocation(this);
-
+        // Load managers
         this.playerManager = new PlayerManager(this);
         this.scoreboardManager = new ScoreboardManager();
 
-        this.startTimedTasks();
-
+        // Init events
         Bukkit.getPluginManager().registerEvents(this, this);
         Bukkit.getPluginManager().registerEvents(new HeistObjectTrackingListener(this), this);
         Bukkit.getPluginManager().registerEvents(new HeistObjectSavingListener(this), this);
         Bukkit.getPluginManager().registerEvents(new AntiGriefingListener(this), this);
 
+        // Init commands
         this.getCommand("kit").setExecutor(new CommandKit(this));
         this.getCommand("trade").setExecutor(new CommandTrade(this));
 
+        // Set heist data
+        this.heistState = new HeistState(this);
+        this.heistObjectLocation = new HeistObjectLocation(this);
         if(!heistState.getBoolean("itemLoaded")) {
             this.season.spawnHeistObject();
         }
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new LocationBroadcaster(this), 0L, 20L);
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WinnerAnnouncer(this), 0L, 20L);
-
-        if(config.getBoolean("realTimeCycle.active")) {
-            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new RealTimeCycle(this), 0, 20L);
-        }
+        // Start timers
+        this.startTimedTasks();
     }
 
     public void setSeason() {
@@ -106,6 +105,14 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
                 playerManager.highlightAll();
             }
         }, 0L, 20L); // Every second
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new LocationBroadcaster(this), 0L, 20L);
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WinnerAnnouncer(this), 0L, 20L);
+
+        if(config.getBoolean("realTimeCycle.active")) {
+            Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new RealTimeCycle(this), 0, 20L);
+        }
     }
 
     @EventHandler
