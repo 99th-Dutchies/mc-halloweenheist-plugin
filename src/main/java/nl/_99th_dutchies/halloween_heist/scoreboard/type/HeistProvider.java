@@ -36,13 +36,19 @@ public class HeistProvider extends ScoreboardProvider {
         LocalDateTime end = LocalDateTime.parse(plugin.config.getString("gameEnd", "2021-11-01 00:00:00"));
         long timeTillEnd = LocalDateTime.now(ZoneId.of(plugin.config.getString("timezone", "UTC"))).until(end, ChronoUnit.SECONDS);
 
-        lines.add(new ScoreboardText(""));
-        lines.add(new ScoreboardText(MessageFormat.format("{0}{1}Time left:", ChatColor.RED, ChatColor.BOLD)));
-        lines.add(new ScoreboardText(
-                MessageFormat.format(ChatColor.YELLOW + "{0}:{1}:{2}",
-                        StringUtils.leftPad((int) Math.floor(timeTillEnd / 3600.0F) + "", 2, "0"),
-                        StringUtils.leftPad((int) Math.floor((timeTillEnd % 3600.0F) / 60) + "", 2, "0"),
-                        StringUtils.leftPad((int) Math.floor(timeTillEnd % 60) + "", 2, "0"))));
+        if(timeTillEnd >= 0) {
+            lines.add(new ScoreboardText(""));
+            lines.add(new ScoreboardText(MessageFormat.format("{0}{1}Time left:", ChatColor.RED, ChatColor.BOLD)));
+            lines.add(new ScoreboardText(
+                    MessageFormat.format(ChatColor.YELLOW + "{0}:{1}:{2}",
+                            StringUtils.leftPad((int) Math.floor(timeTillEnd / 3600.0F) + "", 2, "0"),
+                            StringUtils.leftPad((int) Math.floor((timeTillEnd % 3600.0F) / 60) + "", 2, "0"),
+                            StringUtils.leftPad((int) Math.floor(timeTillEnd % 60) + "", 2, "0"))));
+        } else {
+            lines.add(new ScoreboardText(""));
+            lines.add(new ScoreboardText(MessageFormat.format("{0}{1}Time left:", ChatColor.RED, ChatColor.BOLD)));
+            lines.add(new ScoreboardText(ChatColor.YELLOW + "Game Over!"));
+        }
 
         lines.add(new ScoreboardText(""));
         lines.add(new ScoreboardText(MessageFormat.format("{0}{1}Last location:", ChatColor.RED, ChatColor.BOLD)));
