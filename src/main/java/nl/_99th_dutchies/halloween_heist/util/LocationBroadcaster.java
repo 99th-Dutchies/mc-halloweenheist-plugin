@@ -36,7 +36,7 @@ public class LocationBroadcaster implements Runnable {
             if(broadcastLocation == null) {
                 Bukkit.broadcastMessage("The " + this.plugin.season.getHeistObjectName() + " is very well hidden and could not be traced");
             } else {
-                Bukkit.broadcastMessage("The " + this.plugin.season.getHeistObjectName() + " can be found somewhere around [X:" + ((int) broadcastLocation.getX()) + ",Z:" + ((int) broadcastLocation.getZ()) + "]");
+                Bukkit.broadcastMessage("The " + this.plugin.season.getHeistObjectName() + " can be found somewhere around [X:" + ((int) broadcastLocation.getX()) + ",Y:" + ((int) broadcastLocation.getY()) + ",Z:" + ((int) broadcastLocation.getZ()) + "]");
             }
 
             if(time.getHour() == 13) {
@@ -59,8 +59,10 @@ public class LocationBroadcaster implements Runnable {
         if(currentLocation == null) return null;
 
         int randX = (rand.nextInt(10)) * (rand.nextBoolean() ? 1 : -1);
+        int randY = (rand.nextInt(10)) * (rand.nextBoolean() ? 1 : -1);
         int randZ = (rand.nextInt(10)) * (rand.nextBoolean() ? 1 : -1);
         broadcastLocation.setX(currentLocation.getX() + randX);
+        broadcastLocation.setY(currentLocation.getY() + randY);
         broadcastLocation.setZ(currentLocation.getZ() + randZ);
 
         return broadcastLocation;

@@ -40,8 +40,8 @@ public class HeistProvider extends ScoreboardProvider {
         lines.add(new ScoreboardText(MessageFormat.format("{0}{1}Time left:", ChatColor.RED, ChatColor.BOLD)));
         lines.add(new ScoreboardText(
                 MessageFormat.format(ChatColor.YELLOW + "{0}:{1}:{2}",
-                        StringUtils.leftPad((int) Math.floor(timeTillEnd / 3600) + "", 2, "0"),
-                        StringUtils.leftPad((int) Math.floor((timeTillEnd % 3600) / 60) + "", 2, "0"),
+                        StringUtils.leftPad((int) Math.floor(timeTillEnd / 3600.0F) + "", 2, "0"),
+                        StringUtils.leftPad((int) Math.floor((timeTillEnd % 3600.0F) / 60) + "", 2, "0"),
                         StringUtils.leftPad((int) Math.floor(timeTillEnd % 60) + "", 2, "0"))));
 
         lines.add(new ScoreboardText(""));
@@ -52,6 +52,7 @@ public class HeistProvider extends ScoreboardProvider {
             lines.add(new ScoreboardText(ChatColor.YELLOW + "Unknown"));
         } else {
             lines.add(new ScoreboardText(ChatColor.YELLOW + "X:" + ((int) lastBroadcast.getX())));
+            lines.add(new ScoreboardText(ChatColor.YELLOW + "Y:" + ((int) lastBroadcast.getY())));
             lines.add(new ScoreboardText(ChatColor.YELLOW + "Z:" + ((int) lastBroadcast.getZ())));
         }
 
