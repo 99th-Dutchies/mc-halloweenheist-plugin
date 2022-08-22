@@ -25,6 +25,7 @@ import java.time.temporal.ChronoUnit;
 
 public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
     private static ScoreboardManager scoreboardManager;
+    private static PlayerManager playerManager;
 
     public final FileConfiguration config = getConfig();
     public HeistState heistState;
@@ -43,6 +44,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         this.heistState = new HeistState(this);
         this.heistObjectLocation = new HeistObjectLocation(this);
 
+        this.playerManager = new PlayerManager(this);
         this.scoreboardManager = new ScoreboardManager();
 
         this.startTimedTasks();
@@ -98,6 +100,12 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             scoreboardManager.getPlayerScoreboards().values().forEach((scoreboard) -> scoreboard.update());
         }, 0L, 1L); // Very fast, every tick.
+
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            if(this.getTimeTillEnd() < 60*60) {
+                playerManager.highlightAll();
+            }
+        }, 0L, 20L); // Every second
     }
 
     @EventHandler
