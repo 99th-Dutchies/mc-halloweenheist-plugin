@@ -6,7 +6,7 @@ import nl._99th_dutchies.halloween_heist.listener.AntiGriefingListener;
 import nl._99th_dutchies.halloween_heist.listener.HeistObjectSavingListener;
 import nl._99th_dutchies.halloween_heist.listener.HeistObjectTrackingListener;
 import nl._99th_dutchies.halloween_heist.scoreboard.ScoreboardManager;
-import nl._99th_dutchies.halloween_heist.season.ISeason;
+import nl._99th_dutchies.halloween_heist.season.ASeason;
 import nl._99th_dutchies.halloween_heist.season.Season1;
 import nl._99th_dutchies.halloween_heist.util.*;
 import org.bukkit.*;
@@ -31,7 +31,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
     public HeistState heistState;
     public HeistObjectLocation heistObjectLocation;
     public World mainWorld;
-    public ISeason season;
+    public ASeason season;
 
     @Override
     public void onEnable() {
