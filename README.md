@@ -36,10 +36,10 @@ Once you have your server properly installed, download the latest version of the
   *Default `25`*  
   The offset from (0,0) in which the Heist Object will not spawn.
 - `gameStart`  
-  *Default `'2021-10-31T00:00:00'`*  
+  *Default `'2022-10-31T00:00:00'`*  
   The start time of the game, after which the approximate location will be announced every hour. Note that this value has to be surrounded by quotes and be in ISO-8601 format.
 - `gameEnd`  
-  *Default `'2021-11-01T00:00:00'`*  
+  *Default `'2022-11-01T00:00:00'`*  
   The end time of the game, at which the winner will be announced. Note that this value has to be surrounded by quotes and be in ISO-8601 format.
 - `realTimeCycle`  
   Lets the minecraft day/night cycle correspond to your real life day/night cycle.  
