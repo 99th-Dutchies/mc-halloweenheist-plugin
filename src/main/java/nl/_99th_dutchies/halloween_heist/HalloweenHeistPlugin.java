@@ -26,6 +26,7 @@ import java.time.temporal.ChronoUnit;
 public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
     private static ScoreboardManager scoreboardManager;
     private static PlayerManager playerManager;
+    private static WorldBorderManager worldBorderManager;
 
     public final FileConfiguration config = getConfig();
     public HeistState heistState;
@@ -45,6 +46,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
 
         // Load managers
         this.playerManager = new PlayerManager(this);
+        this.worldBorderManager = new WorldBorderManager(this);
         this.scoreboardManager = new ScoreboardManager();
 
         // Init events
@@ -63,6 +65,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         if(!heistState.getBoolean("itemLoaded")) {
             this.season.spawnHeistObject();
         }
+        worldBorderManager.create();
 
         // Start timers
         this.startTimedTasks();
@@ -104,7 +107,13 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
             if(this.getTimeTillEnd() < 60*60) {
                 playerManager.highlightAll();
             }
-        }, 0L, 20L); // Every second
+        }, 0L, 20L);
+
+        Bukkit.getScheduler().runTaskTimer(this, () -> {
+            if(this.getTimeTillEnd() == 5*60*60) {
+                worldBorderManager.startShrinking();
+            }
+        }, 0L, 20L);
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new LocationBroadcaster(this), 0L, 20L);
 

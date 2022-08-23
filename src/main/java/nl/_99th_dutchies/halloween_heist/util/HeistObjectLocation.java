@@ -63,9 +63,11 @@ public class HeistObjectLocation {
     public void updateDropped(Location l) {
         this.container = HeistObjectContainer.DROPPED;
         this.location = l;
+        this.storingEntity = null;
 
         this.plugin.heistState.set("heistObject.container", HeistObjectContainer.DROPPED.name());
         this.plugin.heistState.set("heistObject.location", l);
+        this.plugin.heistState.set("heistObject.storingEntity", null);
     }
 
     public void updatePlayer(Location l, Player p) {
@@ -76,10 +78,12 @@ public class HeistObjectLocation {
         this.container = HeistObjectContainer.PLAYER;
         this.location = l;
         this.lastPlayer = p;
+        this.storingEntity = null;
 
         this.plugin.heistState.set("heistObject.container", HeistObjectContainer.PLAYER.name());
         this.plugin.heistState.set("heistObject.location", l);
         this.plugin.heistState.set("heistObject.lastPlayer", p.getUniqueId().toString());
+        this.plugin.heistState.set("heistObject.storingEntity", null);
     }
 
     public void updateInventoryHolder(InventoryHolder i) {
@@ -93,9 +97,11 @@ public class HeistObjectLocation {
     public void updateStorageBlock(BlockInventoryHolder b) {
         this.container = HeistObjectContainer.STORAGE_BLOCK;
         this.location = b.getBlock().getLocation();
+        this.storingEntity = null;
 
         this.plugin.heistState.set("heistObject.container", HeistObjectContainer.STORAGE_BLOCK.name());
         this.plugin.heistState.set("heistObject.location", b.getBlock().getLocation());
+        this.plugin.heistState.set("heistObject.storingEntity", null);
     }
 
     public void updateStorageEntity(Entity e) {

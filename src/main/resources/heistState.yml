@@ -11,3 +11,6 @@ heistObject:
   container: DROPPED
   lastPlayer:
   storingEntity:
+worldBorder:
+  size:
+  shrinking: false

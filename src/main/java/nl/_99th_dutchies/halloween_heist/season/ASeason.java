@@ -50,7 +50,7 @@ public abstract class ASeason {
 
     protected Location generateLocation() {
         int itemOffset = this.plugin.config.getInt("itemOffset");
-        int worldDimensions = this.plugin.config.getInt("worldDimensions");
+        int worldDimensions = this.plugin.config.getBoolean("worldBorder.shrinking") ? 200 : this.plugin.config.getInt("worldDimensions");
 
         World world = this.plugin.mainWorld;
         Random rand = new Random();
