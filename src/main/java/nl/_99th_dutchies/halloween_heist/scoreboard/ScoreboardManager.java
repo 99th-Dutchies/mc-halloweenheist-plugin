@@ -10,12 +10,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ScoreboardManager implements Listener {
 
-    private ConcurrentHashMap<Player, PlayerScoreboard> playerScoreboards;
+    private final ConcurrentHashMap<Player, PlayerScoreboard> playerScoreboards;
 
     public ScoreboardManager() {
         this.playerScoreboards = new ConcurrentHashMap<>();
 
-        Bukkit.getOnlinePlayers().forEach((player) -> this.addToPlayerCache(player));
+        Bukkit.getOnlinePlayers().forEach(this::addToPlayerCache);
     }
 
     public boolean hasCachedPlayerScoreboard(Player p) {

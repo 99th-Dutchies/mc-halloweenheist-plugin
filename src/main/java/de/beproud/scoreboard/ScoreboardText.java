@@ -6,8 +6,8 @@ import com.google.common.base.Preconditions;
 
 public class ScoreboardText {
 
-    private String text;
-    private String extendedText;
+    private final String text;
+    private final String extendedText;
 
     private boolean extended = false;
 

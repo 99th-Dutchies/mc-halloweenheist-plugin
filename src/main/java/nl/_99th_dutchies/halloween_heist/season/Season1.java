@@ -40,13 +40,13 @@ public class Season1 extends ASeason {
         Chest dropChest = (Chest)dropBlock.getState();
         Inventory dropChestInventory = dropChest.getBlockInventory();
 
-        // Generate itemstack
+        // Generate item stack
         ItemStack dropItemStack = new ItemStack(this.getHeistObjectMaterial(), 1);
         ItemMeta dropItemMeta = dropItemStack.getItemMeta();
         dropItemMeta.setDisplayName(this.getHeistObjectName());
         dropItemStack.setItemMeta(dropItemMeta);
 
-        // Place itemstack in container
+        // Place item stack in container
         dropChestInventory.setItem(13, dropItemStack);
 
         // Update heistState

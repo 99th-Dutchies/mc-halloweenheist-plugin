@@ -21,7 +21,7 @@ public class PlayerScoreboard {
     private final Scoreboard scoreboard;
     private final Objective objective;
 
-    private boolean active;
+    private final boolean active;
 
     private int lastSentCount = -1;
 
@@ -75,8 +75,8 @@ public class PlayerScoreboard {
      */
     public void disappear() {
         if (this.active && this.scoreboard != null) {
-            this.scoreboard.getTeams().forEach((team) -> team.unregister());
-            this.scoreboard.getObjectives().forEach((obj) -> obj.unregister());
+            this.scoreboard.getTeams().forEach(Team::unregister);
+            this.scoreboard.getObjectives().forEach(Objective::unregister);
         }
     }
 
@@ -161,7 +161,7 @@ public class PlayerScoreboard {
         Objective value = this.scoreboard.getObjective("Halloween Heist");
 
         if (value == null) {
-            value = this.scoreboard.registerNewObjective("Halloween Heist", "HalloweenHeist");
+            value = this.scoreboard.registerNewObjective("Halloween Heist", "HalloweenHeist", "Halloween Heist");
         }
 
         value.setDisplayName(objective);

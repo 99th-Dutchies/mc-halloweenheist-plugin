@@ -4,16 +4,13 @@ import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.metadata.FixedMetadataValue;
 
-public class CommandLocation implements CommandExecutor {
-    private final HalloweenHeistPlugin plugin;
-
+public class CommandLocation extends ACommand {
     public CommandLocation(HalloweenHeistPlugin plugin) {
-        this.plugin = plugin;
+        super(plugin);
     }
 
     @Override

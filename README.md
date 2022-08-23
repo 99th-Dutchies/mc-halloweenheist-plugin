@@ -31,7 +31,7 @@ Once you have your server properly installed, download the latest version of the
   The name of the timezone you will be playing at.
 - `worldDimensions`  
   *Default `500`*  
-  The dimensions of the gamearea, assuming a center point of (0,0). The Heist Object will spawn somewhere between `-worldDimensions` and `worldDimensions` in both X and Z direction.
+  The dimensions of the game area, assuming a center point of (0,0). The Heist Object will spawn somewhere between `-worldDimensions` and `worldDimensions` in both X and Z direction.
 - `itemOffset`  
   *Default `25`*  
   The offset from (0,0) in which the Heist Object will not spawn.
@@ -57,7 +57,7 @@ Once you have your server properly installed, download the latest version of the
   Whether enderchests are allowed. If `false`, placed enderchests will be converted to regular chests.
 - `season`  
   *Default `1`*  
-  Which Brooklyn Nine-Nine season's Halloween Heist you will be playing. Currently supported: `1`.
+  Which Brooklyn Nine-Nine season's Halloween Heist you will be playing. Currently, supported: `1`.
 - `kit`  
   The `/kit` command gives a basis kit to start with. Can be used once every player's lifetime, with a configurable cooldown.  
   -- `enabled`  

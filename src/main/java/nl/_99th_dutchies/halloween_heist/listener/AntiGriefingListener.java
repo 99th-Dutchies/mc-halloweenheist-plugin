@@ -53,11 +53,7 @@ public class AntiGriefingListener implements Listener {
     }
 
     private boolean isProtected(int antiGriefing, Location location) {
-        if(location.getX() > antiGriefing * -1 && location.getX() < antiGriefing &&
-                location.getZ() > antiGriefing * -1 && location.getZ() < antiGriefing) {
-            return true;
-        }
-
-        return false;
+        return location.getX() > antiGriefing * -1 && location.getX() < antiGriefing &&
+                location.getZ() > antiGriefing * -1 && location.getZ() < antiGriefing;
     }
 }

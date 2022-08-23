@@ -4,16 +4,13 @@ import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class CommandTrade implements CommandExecutor {
-    private final HalloweenHeistPlugin plugin;
-
+public class CommandTrade extends ACommand {
     public CommandTrade(HalloweenHeistPlugin plugin) {
-        this.plugin = plugin;
+        super(plugin);
     }
 
     @Override

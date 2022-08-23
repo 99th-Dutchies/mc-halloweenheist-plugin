@@ -1,5 +1,6 @@
 package nl._99th_dutchies.halloween_heist;
 
+import de.beproud.scoreboard.PlayerScoreboard;
 import nl._99th_dutchies.halloween_heist.command.*;
 import nl._99th_dutchies.halloween_heist.listener.*;
 import nl._99th_dutchies.halloween_heist.scoreboard.ScoreboardManager;
@@ -20,9 +21,9 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 
 public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
-    private static ScoreboardManager scoreboardManager;
-    private static PlayerManager playerManager;
-    private static WorldBorderManager worldBorderManager;
+    private ScoreboardManager scoreboardManager;
+    private PlayerManager playerManager;
+    private WorldBorderManager worldBorderManager;
 
     public final FileConfiguration config = getConfig();
     public HeistState heistState;
@@ -101,9 +102,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
     }
 
     private void startTimedTasks() {
-        Bukkit.getScheduler().runTaskTimer(this, () -> {
-            scoreboardManager.getPlayerScoreboards().values().forEach((scoreboard) -> scoreboard.update());
-        }, 0L, 1L); // Very fast, every tick.
+        Bukkit.getScheduler().runTaskTimer(this, () -> scoreboardManager.getPlayerScoreboards().values().forEach(PlayerScoreboard::update), 0L, 1L); // Very fast, every tick.
 
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             if(this.getTimeTillEnd() < 60*60) {
