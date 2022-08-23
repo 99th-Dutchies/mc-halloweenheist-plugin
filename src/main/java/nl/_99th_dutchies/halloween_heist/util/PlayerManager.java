@@ -17,4 +17,14 @@ public class PlayerManager {
             player.addPotionEffect(new PotionEffect(PotionEffectType.GLOWING, Integer.MAX_VALUE, Integer.MAX_VALUE, true, true, true));
         }
     }
+
+    public void resetLocationTimers() {
+        for(Player player : plugin.mainWorld.getPlayers()){
+            player.removeMetadata("nl._99th_dutchies.halloween_heist.location.time", this.plugin);
+            player.removeMetadata("nl._99th_dutchies.halloween_heist.location.x", this.plugin);
+            player.removeMetadata("nl._99th_dutchies.halloween_heist.location.y", this.plugin);
+            player.removeMetadata("nl._99th_dutchies.halloween_heist.location.z", this.plugin);
+
+        }
+    }
 }

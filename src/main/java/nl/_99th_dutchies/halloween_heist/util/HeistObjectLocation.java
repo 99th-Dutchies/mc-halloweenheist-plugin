@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.BlockInventoryHolder;
 import org.bukkit.inventory.InventoryHolder;
 
+import java.util.Random;
 import java.util.UUID;
 
 public class HeistObjectLocation {
@@ -126,5 +127,22 @@ public class HeistObjectLocation {
             default:
                 return null;
         }
+    }
+
+    public Location getLocationWithRandomOffset() {
+        Random rand = new Random();
+        Location randomLocation = new Location(this.plugin.mainWorld, 0, 0, 0);
+        Location currentLocation = this.getLocation();
+
+        if(currentLocation == null) return null;
+
+        int randX = (rand.nextInt(10)) * (rand.nextBoolean() ? 1 : -1);
+        int randY = (rand.nextInt(10)) * (rand.nextBoolean() ? 1 : -1);
+        int randZ = (rand.nextInt(10)) * (rand.nextBoolean() ? 1 : -1);
+        randomLocation.setX(currentLocation.getX() + randX);
+        randomLocation.setY(currentLocation.getY() + randY);
+        randomLocation.setZ(currentLocation.getZ() + randZ);
+
+        return randomLocation;
     }
 }

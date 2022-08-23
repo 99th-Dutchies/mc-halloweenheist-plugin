@@ -49,7 +49,7 @@ public class WorldBorderManager {
     private void checkHeistItem() {
         Location location = this.plugin.heistObjectLocation.getLocation();
         if(this.plugin.mainWorld.getWorldBorder().isInside(location)) {
-            this.plugin.season.spawnHeistObject();
+            this.plugin.respawnHeistObject();
         }
     }
 }

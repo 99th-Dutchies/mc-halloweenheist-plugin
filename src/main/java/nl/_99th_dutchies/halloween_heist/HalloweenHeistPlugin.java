@@ -1,13 +1,9 @@
 package nl._99th_dutchies.halloween_heist;
 
-import nl._99th_dutchies.halloween_heist.command.CommandKit;
-import nl._99th_dutchies.halloween_heist.command.CommandTrade;
-import nl._99th_dutchies.halloween_heist.listener.AntiGriefingListener;
-import nl._99th_dutchies.halloween_heist.listener.HeistObjectSavingListener;
-import nl._99th_dutchies.halloween_heist.listener.HeistObjectTrackingListener;
+import nl._99th_dutchies.halloween_heist.command.*;
+import nl._99th_dutchies.halloween_heist.listener.*;
 import nl._99th_dutchies.halloween_heist.scoreboard.ScoreboardManager;
-import nl._99th_dutchies.halloween_heist.season.ASeason;
-import nl._99th_dutchies.halloween_heist.season.Season1;
+import nl._99th_dutchies.halloween_heist.season.*;
 import nl._99th_dutchies.halloween_heist.util.*;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -57,6 +53,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
 
         // Init commands
         this.getCommand("kit").setExecutor(new CommandKit(this));
+        this.getCommand("location").setExecutor(new CommandLocation(this));
         this.getCommand("trade").setExecutor(new CommandTrade(this));
 
         // Set heist data
@@ -98,6 +95,11 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         return this.getLocalNow().until(this.getGameEnd(), ChronoUnit.SECONDS);
     }
 
+    public void respawnHeistObject() {
+        this.season.spawnHeistObject();
+        this.playerManager.resetLocationTimers();
+    }
+
     private void startTimedTasks() {
         Bukkit.getScheduler().runTaskTimer(this, () -> {
             scoreboardManager.getPlayerScoreboards().values().forEach((scoreboard) -> scoreboard.update());
@@ -114,8 +116,6 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
                 worldBorderManager.startShrinking();
             }
         }, 0L, 20L);
-
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new LocationBroadcaster(this), 0L, 20L);
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new WinnerAnnouncer(this), 0L, 20L);
 

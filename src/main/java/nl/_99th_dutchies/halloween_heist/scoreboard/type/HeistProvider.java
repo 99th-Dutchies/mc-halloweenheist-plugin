@@ -1,16 +1,12 @@
 package nl._99th_dutchies.halloween_heist.scoreboard.type;
 
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import de.beproud.scoreboard.ScoreboardProvider;
@@ -51,14 +47,18 @@ public class HeistProvider extends ScoreboardProvider {
 
         lines.add(new ScoreboardText(""));
         lines.add(new ScoreboardText(MessageFormat.format("{0}{1}Last location:", ChatColor.RED, ChatColor.BOLD)));
-        Location lastBroadcast = plugin.heistState.getLocation("lastBroadcast.location");
+        boolean hasLocation = p.hasMetadata("nl._99th_dutchies.halloween_heist.location.time");
         
-        if(plugin.heistState.getString("lastBroadcast.time") == null || lastBroadcast == null) {
+        if(hasLocation) {
             lines.add(new ScoreboardText(ChatColor.YELLOW + "Unknown"));
         } else {
-            lines.add(new ScoreboardText(ChatColor.YELLOW + "X:" + ((int) lastBroadcast.getX())));
-            lines.add(new ScoreboardText(ChatColor.YELLOW + "Y:" + ((int) lastBroadcast.getY())));
-            lines.add(new ScoreboardText(ChatColor.YELLOW + "Z:" + ((int) lastBroadcast.getZ())));
+            int lastLocationX = p.getMetadata("nl._99th_dutchies.halloween_heist.location.x").get(0).asInt();
+            int lastLocationY = p.getMetadata("nl._99th_dutchies.halloween_heist.location.y").get(0).asInt();
+            int lastLocationZ = p.getMetadata("nl._99th_dutchies.halloween_heist.location.z").get(0).asInt();
+
+            lines.add(new ScoreboardText(ChatColor.YELLOW + "X:" + lastLocationX));
+            lines.add(new ScoreboardText(ChatColor.YELLOW + "Y:" + lastLocationY));
+            lines.add(new ScoreboardText(ChatColor.YELLOW + "Z:" + lastLocationZ));
         }
 
         lines.add(new ScoreboardText(""));
