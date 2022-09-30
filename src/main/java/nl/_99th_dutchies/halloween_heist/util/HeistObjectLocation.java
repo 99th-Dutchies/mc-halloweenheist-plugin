@@ -34,6 +34,9 @@ public class HeistObjectLocation {
             case "STORAGE_BLOCK":
                 this.container = HeistObjectContainer.STORAGE_BLOCK;
                 break;
+            case "STORAGE_ENTITY":
+                this.container = HeistObjectContainer.STORAGE_ENTITY;
+                break;
             default:
             case "DROPPED":
                 this.container = HeistObjectContainer.DROPPED;
@@ -118,7 +121,8 @@ public class HeistObjectLocation {
     public Location getLocation() {
         switch (this.container) {
             case PLAYER:
-                return Bukkit.getPlayer(lastPlayer.getUniqueId()).getLocation();
+                Player player = lastPlayer != null ? Bukkit.getPlayer(lastPlayer.getUniqueId()) : null;
+                return player != null ? player.getLocation() : this.location;
             case STORAGE_BLOCK:
             case DROPPED:
                 return this.location;

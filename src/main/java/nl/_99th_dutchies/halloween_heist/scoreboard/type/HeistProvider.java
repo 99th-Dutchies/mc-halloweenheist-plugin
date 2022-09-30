@@ -49,7 +49,7 @@ public class HeistProvider extends ScoreboardProvider {
         lines.add(new ScoreboardText(MessageFormat.format("{0}{1}Last location:", ChatColor.RED, ChatColor.BOLD)));
         boolean hasLocation = p.hasMetadata("nl._99th_dutchies.halloween_heist.location.time");
         
-        if(hasLocation) {
+        if(!hasLocation) {
             lines.add(new ScoreboardText(ChatColor.YELLOW + "Unknown"));
         } else {
             int lastLocationX = p.getMetadata("nl._99th_dutchies.halloween_heist.location.x").get(0).asInt();

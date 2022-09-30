@@ -8,12 +8,16 @@ import nl._99th_dutchies.halloween_heist.season.*;
 import nl._99th_dutchies.halloween_heist.util.*;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.time.LocalDateTime;
@@ -97,8 +101,48 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
     }
 
     public void respawnHeistObject() {
+        this.destroyHeistObject();
         this.season.spawnHeistObject();
         this.playerManager.resetLocationTimers();
+    }
+
+    public void destroyHeistObject() {
+        Inventory inv = null;
+        Material heistObjectMaterial = this.season.getHeistObjectMaterial();
+        switch(this.heistObjectLocation.container) {
+            case DROPPED:
+                for(Entity entity : this.mainWorld.getNearbyEntities(this.heistObjectLocation.location, 0.5, 0.5, 0.5)) {
+                    if(entity.getType().equals(EntityType.DROPPED_ITEM) && ((Item) entity).getItemStack().getType().equals(heistObjectMaterial)) {
+                        entity.remove();
+                    }
+                }
+                return;
+            case STORAGE_BLOCK:
+                inv = ((BlockInventoryHolder) this.heistObjectLocation.location.getBlock().getState()).getInventory();
+                break;
+            case STORAGE_ENTITY:
+                inv = ((BlockInventoryHolder) this.heistObjectLocation.storingEntity).getInventory();
+                break;
+            case PLAYER:
+                Player p = this.heistObjectLocation.lastPlayer;
+                PlayerInventory pi = p.getInventory();
+                if(pi.getItemInMainHand().getType().equals(heistObjectMaterial)) {
+                    pi.setItemInMainHand(null);
+                }
+                if(pi.getItemInOffHand().getType().equals(heistObjectMaterial)) {
+                    pi.setItemInOffHand(null);
+                }
+                inv = pi;
+                break;
+        }
+        if(inv != null) {
+            for(int i = 0; i < inv.getSize(); i++) {
+                ItemStack invItem = inv.getItem(i);
+                if(invItem != null && invItem.getType().equals(heistObjectMaterial)) {
+                    inv.remove(invItem);
+                }
+            }
+        }
     }
 
     private void startTimedTasks() {
@@ -111,7 +155,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         }, 0L, 20L);
 
         Bukkit.getScheduler().runTaskTimer(this, () -> {
-            if(this.getTimeTillEnd() == 5*60*60) {
+            if(this.getTimeTillEnd() <= 5*60*60) {
                 worldBorderManager.startShrinking();
             }
         }, 0L, 20L);

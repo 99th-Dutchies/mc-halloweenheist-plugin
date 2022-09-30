@@ -9,6 +9,7 @@ import java.text.MessageFormat;
 
 public class WorldBorderManager {
     private final HalloweenHeistPlugin plugin;
+    private boolean shrinking = false;
 
     public WorldBorderManager(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
@@ -21,20 +22,27 @@ public class WorldBorderManager {
 
     public void create() {
         this.plugin.mainWorld.getWorldBorder().setCenter(0, 0);
-        int setSize = this.plugin.config.getInt("worldDimensions") * 2;
-
-        this.updateSize(setSize, 0);
+        if(this.plugin.heistState.getInt("worldBorder.size") <= 0) {
+            int setSize = this.plugin.config.getInt("worldDimensions") * 2;
+            this.updateSize(setSize, 0);
+        }
     }
 
     public void startShrinking() {
-        this.plugin.heistState.set("worldBorder.shrinking", true);
-        Bukkit.broadcastMessage(MessageFormat.format("{0}{1}The world border has started shrinking!", ChatColor.RED, ChatColor.BOLD));
+        if(!this.plugin.heistState.getBoolean("worldBorder.shrinking")) {
+            this.plugin.heistState.set("worldBorder.shrinking", true);
+            Bukkit.broadcastMessage(MessageFormat.format("{0}{1}The world border has started shrinking!", ChatColor.RED, ChatColor.BOLD));
+        }
 
-        Bukkit.getScheduler().runTaskTimer(this.plugin, () -> {
-            if(this.plugin.getTimeTillEnd() < 5*60*60 && this.plugin.getTimeTillEnd() > 0) {
-                this.shrink(2, 60);
-            }
-        }, 0L, 20L);
+        if(!this.shrinking) {
+            this.shrinking = true;
+            System.out.println("Start shrinker");
+            Bukkit.getScheduler().runTaskTimer(this.plugin, () -> {
+                if (this.plugin.getTimeTillEnd() < 5 * 60 * 60 && this.plugin.getTimeTillEnd() > 0) {
+                    this.shrink(2, 60);
+                }
+            }, 0L, 60*20L);
+        }
     }
 
     public void shrink(int shrinkSize, int seconds) {
@@ -48,7 +56,7 @@ public class WorldBorderManager {
 
     private void checkHeistItem() {
         Location location = this.plugin.heistObjectLocation.getLocation();
-        if(this.plugin.mainWorld.getWorldBorder().isInside(location)) {
+        if(!this.plugin.mainWorld.getWorldBorder().isInside(location)) {
             this.plugin.respawnHeistObject();
         }
     }
