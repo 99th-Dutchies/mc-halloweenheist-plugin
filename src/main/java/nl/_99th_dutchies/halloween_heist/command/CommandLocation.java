@@ -1,6 +1,7 @@
 package nl._99th_dutchies.halloween_heist.command;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
+import nl._99th_dutchies.halloween_heist.util.TimeHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -24,7 +25,8 @@ public class CommandLocation extends ACommand {
 
         if(p.hasMetadata("nl._99th_dutchies.halloween_heist.location.time") &&
                 p.getMetadata("nl._99th_dutchies.halloween_heist.location.time").get(0).asInt() + 60*60 >= (System.currentTimeMillis() / 1000L)) {
-            sender.sendMessage(ChatColor.RED + "You have to wait 60 minutes between using /location.");
+            int seconds = (int) (p.getMetadata("nl._99th_dutchies.halloween_heist.location.time").get(0).asInt() + 60*60 - (System.currentTimeMillis() / 1000L));
+            sender.sendMessage(ChatColor.RED + "You have to wait " + TimeHelper.secondsToTime(seconds) + " before using /location.");
         } else {
             // Send location
             Location approxLocation = this.plugin.heistObjectLocation.getLocationWithRandomOffset();

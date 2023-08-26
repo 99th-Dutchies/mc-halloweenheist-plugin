@@ -2,6 +2,7 @@ package nl._99th_dutchies.halloween_heist.command;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import nl._99th_dutchies.halloween_heist.util.InventoryItem;
+import nl._99th_dutchies.halloween_heist.util.TimeHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -36,7 +37,8 @@ public class CommandKit extends ACommand {
             sender.sendMessage(ChatColor.RED + "You already obtained your kit");
         } else if(p.hasMetadata("nl._99th_dutchies.halloween_heist.hasUsedKitTime") &&
                 p.getMetadata("nl._99th_dutchies.halloween_heist.hasUsedKitTime").get(0).asInt() + this.plugin.config.getInt("kit.cooldown") >= (System.currentTimeMillis() / 1000L)) {
-            sender.sendMessage(ChatColor.RED + "You have to wait " + this.plugin.config.getInt("kit.cooldown") + " seconds between using /kit.");
+            int seconds = (int) (p.getMetadata("nl._99th_dutchies.halloween_heist.hasUsedKitTime").get(0).asInt() + this.plugin.config.getInt("kit.cooldown") - (System.currentTimeMillis() / 1000L));
+            sender.sendMessage(ChatColor.RED + "You have to wait " + TimeHelper.secondsToTime(seconds) + " before using /kit.");
         } else {
             ArrayList<InventoryItem> items = new ArrayList<>();
             items.add(new InventoryItem(Material.CHAINMAIL_BOOTS, 1, "Tactical gear"));
