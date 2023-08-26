@@ -72,6 +72,10 @@ public class HeistObjectSavingListener implements Listener {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event){
         if(event.getEntity() instanceof Player) return;
+        if(this.plugin.season.getHeistObjectSpawnentity() != null &&
+                event.getEntityType().equals(this.plugin.season.getHeistObjectSpawnentity())) {
+            return;
+        }
 
         for(ItemStack drop : event.getDrops()) {
             if(drop.getType().equals(this.plugin.season.getHeistObjectMaterial())) {
