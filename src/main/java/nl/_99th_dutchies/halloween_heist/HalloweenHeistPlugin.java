@@ -88,12 +88,12 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
 
     public LocalDateTime getGameStart() {
         int year = this.getLocalNow().getYear();
-        return LocalDateTime.parse(this.config.getString("gameStart", year + "-10-31 00:00:00"));
+        return LocalDateTime.parse(this.config.getString("gameStart", year + "-10-31T00:00:00"));
     }
 
     public LocalDateTime getGameEnd() {
         int year = this.getLocalNow().getYear();
-        return LocalDateTime.parse(this.config.getString("gameEnd", year + "-11-01 00:00:00"));
+        return LocalDateTime.parse(this.config.getString("gameEnd", year + "-11-01T00:00:00"));
     }
 
     public long getTimeTillEnd() {
@@ -111,7 +111,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         Material heistObjectMaterial = this.season.getHeistObjectMaterial();
         switch(this.heistObjectLocation.container) {
             case DROPPED:
-                for(Entity entity : this.mainWorld.getNearbyEntities(this.heistObjectLocation.location, 0.5, 0.5, 0.5)) {
+                for(Entity entity : this.mainWorld.getNearbyEntities(this.heistObjectLocation.location, 2, 2, 2)) {
                     if(entity.getType().equals(EntityType.DROPPED_ITEM) && ((Item) entity).getItemStack().getType().equals(heistObjectMaterial)) {
                         entity.remove();
                     }
