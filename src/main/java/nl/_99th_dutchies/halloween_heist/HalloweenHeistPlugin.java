@@ -23,6 +23,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.Iterator;
 
 public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
     private ScoreboardManager scoreboardManager;
@@ -56,6 +57,9 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new HeistObjectSavingListener(this), this);
         Bukkit.getPluginManager().registerEvents(new AntiGriefingListener(this), this);
 
+        // Init recipes
+        this.removeRecipe(this.season.getHeistObjectMaterial());
+
         // Init commands
         this.getCommand("kit").setExecutor(new CommandKit(this));
         this.getCommand("location").setExecutor(new CommandLocation(this));
@@ -78,6 +82,9 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
             default:
             case 1:
                 this.season = new Season1(this);
+                break;
+            case 2:
+                this.season = new Season2(this);
                 break;
         }
     }
@@ -141,6 +148,16 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
                 if(invItem != null && invItem.getType().equals(heistObjectMaterial)) {
                     inv.remove(invItem);
                 }
+            }
+        }
+    }
+
+    private void removeRecipe(Material material) {
+        Iterator<Recipe> iter = this.getServer().recipeIterator();
+        while (iter.hasNext()) {
+            Recipe r = iter.next();
+            if (r.getResult().isSimilar(new ItemStack(material))) {
+                iter.remove();
             }
         }
     }

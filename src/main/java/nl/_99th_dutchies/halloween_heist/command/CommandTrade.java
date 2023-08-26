@@ -52,7 +52,7 @@ public class CommandTrade extends ACommand {
             int traded = 0;
 
             for(ItemStack invItemStack : p.getInventory()) {
-                if(invItemStack != null && invItemStack.isSimilar(new ItemStack(itemTrade.getSourceMaterial(), 1))) {
+                if(invItemStack != null && invItemStack.isSimilar(new ItemStack(itemTrade.getSourceMaterial()))) {
                     int thisStack = invItemStack.getAmount();
                     int tradeThisStack = Math.min(thisStack, amount * itemTrade.getSourceCount() - traded);
 

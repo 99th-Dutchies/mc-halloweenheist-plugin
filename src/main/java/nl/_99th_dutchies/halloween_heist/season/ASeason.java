@@ -2,6 +2,7 @@ package nl._99th_dutchies.halloween_heist.season;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.bukkit.*;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
 
@@ -15,7 +16,14 @@ public abstract class ASeason {
         this.plugin = plugin;
     }
 
-    public abstract Material getHeistObjectSpawncontainer();
+    public Material getHeistObjectSpawncontainer() {
+        return null;
+    }
+
+    public EntityType getHeistObjectSpawnentity() {
+        return null;
+    }
+
     public abstract Material getHeistObjectMaterial();
     public abstract String getHeistObjectName();
 
@@ -49,6 +57,10 @@ public abstract class ASeason {
     }
 
     protected Location generateLocation() {
+        return this.generateLocation(true);
+    }
+
+    protected Location generateLocation(boolean allowUnderground) {
         int itemOffset = this.plugin.config.getInt("itemOffset");
         int worldDimensions = this.plugin.config.getBoolean("worldBorder.shrinking") ? 200 : this.plugin.config.getInt("worldDimensions");
 
@@ -57,7 +69,12 @@ public abstract class ASeason {
 
         int dropX = (rand.nextInt(worldDimensions - itemOffset) + itemOffset) * (rand.nextBoolean() ? 1 : -1);
         int dropZ = (rand.nextInt(worldDimensions - itemOffset) + itemOffset) * (rand.nextBoolean() ? 1 : -1);
-        int dropY = rand.nextInt(world.getHighestBlockYAt(dropX, dropZ) - 4) + 5;
+
+        int dropY = world.getHighestBlockYAt(dropX, dropZ);
+        if (allowUnderground) {
+            dropY = rand.nextInt(dropY - 4) + 5;
+        }
+
         return new Location(world, dropX, dropY, dropZ);
     }
 

@@ -121,13 +121,13 @@ public class HeistObjectLocation {
     public Location getLocation() {
         switch (this.container) {
             case PLAYER:
-                Player player = lastPlayer != null ? Bukkit.getPlayer(lastPlayer.getUniqueId()) : null;
+                Player player = this.lastPlayer != null ? Bukkit.getPlayer(this.lastPlayer.getUniqueId()) : null;
                 return player != null ? player.getLocation() : this.location;
             case STORAGE_BLOCK:
             case DROPPED:
                 return this.location;
             case STORAGE_ENTITY:
-                return Bukkit.getEntity(storingEntity.getUniqueId()).getLocation();
+                return Bukkit.getEntity(this.storingEntity.getUniqueId()).getLocation();
             default:
                 return null;
         }
