@@ -73,6 +73,8 @@ public abstract class ASeason {
         int dropY = world.getHighestBlockYAt(dropX, dropZ);
         if (allowUnderground) {
             dropY = rand.nextInt(dropY - 4) + 5;
+        } else {
+            dropY += 1; // To prevent spawning in top layer
         }
 
         return new Location(world, dropX, dropY, dropZ);

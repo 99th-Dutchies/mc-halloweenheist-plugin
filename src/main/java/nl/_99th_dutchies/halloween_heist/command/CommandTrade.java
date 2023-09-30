@@ -26,6 +26,10 @@ public class CommandTrade extends ACommand {
             return false;
         }
 
+        if (args.length < 2) {
+            sender.sendMessage(ChatColor.RED + "Missing arguments for /trade");
+            return false;
+        }
         ItemTrade itemTrade = CommandTrade.getConfig(args[0]);
         if (itemTrade == null) {
             sender.sendMessage(ChatColor.RED + "Unknown material for /trade");
