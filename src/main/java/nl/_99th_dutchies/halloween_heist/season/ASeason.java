@@ -2,6 +2,7 @@ package nl._99th_dutchies.halloween_heist.season;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
@@ -57,25 +58,36 @@ public abstract class ASeason {
     }
 
     protected Location generateLocation() {
-        return this.generateLocation(true);
+        return this.generateLocation(true, true);
     }
 
-    protected Location generateLocation(boolean allowUnderground) {
+    protected Location generateLocation(boolean allowUnderground, boolean allowInWater) {
         int itemOffset = this.plugin.config.getInt("itemOffset");
         int worldDimensions = this.plugin.config.getBoolean("worldBorder.shrinking") ? 200 : this.plugin.config.getInt("worldDimensions");
 
         World world = this.plugin.mainWorld;
-        Random rand = new Random();
+        int dropX;
+        int dropY;
+        int dropZ;
+        Block block;
 
-        int dropX = (rand.nextInt(worldDimensions - itemOffset) + itemOffset) * (rand.nextBoolean() ? 1 : -1);
-        int dropZ = (rand.nextInt(worldDimensions - itemOffset) + itemOffset) * (rand.nextBoolean() ? 1 : -1);
+        do {
+            Random rand = new Random();
 
-        int dropY = world.getHighestBlockYAt(dropX, dropZ);
-        if (allowUnderground) {
-            dropY = rand.nextInt(dropY - 4) + 5;
-        } else {
-            dropY += 1; // To prevent spawning in top layer
-        }
+            dropX = (rand.nextInt(worldDimensions - itemOffset) + itemOffset) * (rand.nextBoolean() ? 1 : -1);
+            dropZ = (rand.nextInt(worldDimensions - itemOffset) + itemOffset) * (rand.nextBoolean() ? 1 : -1);
+
+            dropY = world.getHighestBlockYAt(dropX, dropZ);
+            if (allowUnderground) {
+                dropY = rand.nextInt(dropY - 4) + 5;
+            } else {
+                dropY += 1; // To prevent spawning in top layer
+            }
+
+            block = world.getBlockAt(dropX, dropY -1, dropZ);
+
+            System.out.println("Block at [" + dropX + "," + (dropY-1) + "," + dropZ + "] is " + block.getType().name() + " and is " + (block.isLiquid() ? "" : "not ") + "liquid");
+        } while(!allowInWater && block.isLiquid());
 
         return new Location(world, dropX, dropY, dropZ);
     }
