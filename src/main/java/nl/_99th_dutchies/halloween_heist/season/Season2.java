@@ -4,11 +4,13 @@ import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Pillager;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.text.MessageFormat;
 
@@ -47,6 +49,11 @@ public class Season2 extends ASeason {
         // Generate item stack
         ItemStack dropItemStack = new ItemStack(this.getHeistObjectMaterial(), 1);
         ItemMeta dropItemMeta = dropItemStack.getItemMeta();
+        dropItemMeta.getPersistentDataContainer().set(
+                new NamespacedKey(plugin, "isHeistObject"),
+                PersistentDataType.INTEGER,
+                1
+        );
         dropItemMeta.setDisplayName(this.getHeistObjectName());
         dropItemStack.setItemMeta(dropItemMeta);
 

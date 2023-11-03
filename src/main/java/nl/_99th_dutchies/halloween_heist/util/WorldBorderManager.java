@@ -56,7 +56,8 @@ public class WorldBorderManager {
 
     private void checkHeistItem() {
         Location location = this.plugin.heistObjectLocation.getLocation();
-        if(!this.plugin.mainWorld.getWorldBorder().isInside(location)) {
+        if(location != null && !this.plugin.mainWorld.getWorldBorder().isInside(location)) {
+            System.out.println("HeistObject outside of worldBorder");
             this.plugin.respawnHeistObject();
         }
     }

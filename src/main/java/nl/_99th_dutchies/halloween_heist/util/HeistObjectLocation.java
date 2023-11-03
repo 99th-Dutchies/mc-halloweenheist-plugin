@@ -64,14 +64,14 @@ public class HeistObjectLocation {
         this.plugin.heistState.set("heistObject.lastPlayer", null);
     }
 
-    public void updateDropped(Location l) {
+    public void updateDropped(Location l, Entity droppedEntity) {
         this.container = HeistObjectContainer.DROPPED;
         this.location = l;
-        this.storingEntity = null;
+        this.storingEntity = droppedEntity;
 
         this.plugin.heistState.set("heistObject.container", HeistObjectContainer.DROPPED.name());
         this.plugin.heistState.set("heistObject.location", l);
-        this.plugin.heistState.set("heistObject.storingEntity", null);
+        this.plugin.heistState.set("heistObject.storingEntity", droppedEntity.getUniqueId().toString());
     }
 
     public void updatePlayer(Location l, Player p) {
@@ -125,9 +125,17 @@ public class HeistObjectLocation {
                 return player != null ? player.getLocation() : this.location;
             case STORAGE_BLOCK:
             case DROPPED:
-                return this.location;
             case STORAGE_ENTITY:
-                return Bukkit.getEntity(this.storingEntity.getUniqueId()).getLocation();
+                if (this.storingEntity == null) {
+                    return this.location;
+                }
+
+                Entity entity = Bukkit.getEntity(this.storingEntity.getUniqueId());
+                if (entity == null) {
+                    return null;
+                }
+
+                return entity.getLocation();
             default:
                 return null;
         }

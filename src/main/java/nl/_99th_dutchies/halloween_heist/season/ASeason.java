@@ -6,6 +6,8 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.text.MessageFormat;
 import java.util.Random;
@@ -98,5 +100,22 @@ public abstract class ASeason {
 
         this.plugin.heistState.set("itemLoaded", true);
         System.out.println("Dropped " + this.getHeistObjectName() + " at [" + l.getX() + "," + l.getY() + "," + l.getZ() + "]");
+    }
+
+    public boolean isHeistObject(ItemStack itemStack) {
+        if (!itemStack.getType().equals(this.getHeistObjectMaterial())) {
+            return false;
+        }
+        if (itemStack.getItemMeta() == null) {
+            return false;
+        }
+        if (!itemStack.getItemMeta().getPersistentDataContainer().has(new NamespacedKey(plugin, "isHeistObject"), PersistentDataType.INTEGER)) {
+            return false;
+        }
+        if (itemStack.getItemMeta().getPersistentDataContainer().getOrDefault(new NamespacedKey(plugin, "isHeistObject"), PersistentDataType.INTEGER, 0) != 1) {
+           return false;
+        }
+
+        return true;
     }
 }

@@ -23,11 +23,13 @@ public class HeistObjectSavingListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         this.doDropHeistObject(event.getPlayer());
+        System.out.println("Player quit, dropping HeistObject");
     }
 
     @EventHandler
     public void onEntityResurrect(EntityResurrectEvent event) {
         event.setCancelled(true);
+        System.out.println("Prevented EntityResurrect of " + event.getEntityType());
     }
 
     @EventHandler
@@ -40,64 +42,52 @@ public class HeistObjectSavingListener implements Listener {
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
         if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
-                ((Item)event.getEntity()).getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
+                this.plugin.season.isHeistObject(((Item)event.getEntity()).getItemStack())) {
             event.setCancelled(true);
+            System.out.println("Prevented EntityDamage to HeistObject");
         }
     }
 
     @EventHandler
     public void onEntityCombust(EntityCombustEvent event) {
         if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
-                ((Item)event.getEntity()).getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
+                this.plugin.season.isHeistObject(((Item)event.getEntity()).getItemStack())) {
             event.setCancelled(true);
+            System.out.println("Prevented EntityCombust to HeistObject");
         }
     }
 
     @EventHandler
     public void onItemDespawn(ItemDespawnEvent event){
         if(event.getEntity().getType().equals(EntityType.DROPPED_ITEM) &&
-                event.getEntity().getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial())) {
+                this.plugin.season.isHeistObject(event.getEntity().getItemStack())) {
             event.setCancelled(true);
+            System.out.println("Prevented ItemDespawn to HeistObject");
         }
     }
 
     @EventHandler
     public void onEntityPickupItem(EntityPickupItemEvent event) {
-        if(event.getItem().getItemStack().getType().equals(this.plugin.season.getHeistObjectMaterial()) &&
-                event.getEntityType() != EntityType.PLAYER) {
+        if (this.plugin.season.isHeistObject(event.getItem().getItemStack()) &&
+                !event.getEntityType().equals(EntityType.PLAYER)) {
             event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onEntityDeath(EntityDeathEvent event){
-        if(event.getEntity() instanceof Player) return;
-        if(this.plugin.season.getHeistObjectSpawnentity() != null &&
-                event.getEntityType().equals(this.plugin.season.getHeistObjectSpawnentity())) {
-            return;
-        }
-
-        for(ItemStack drop : event.getDrops()) {
-            if(drop.getType().equals(this.plugin.season.getHeistObjectMaterial())) {
-                drop.setAmount(0);
-            }
+            System.out.println("Prevented EntityPickup to HeistObject by a " + event.getEntityType().name());
         }
     }
 
     private void doDropHeistObject(Player p) {
         PlayerInventory pi = p.getInventory();
-        Material heistObject = this.plugin.season.getHeistObjectMaterial();
 
-        if(pi.getItemInMainHand().getType().equals(heistObject)) {
+        if (this.plugin.season.isHeistObject(pi.getItemInMainHand())) {
             p.dropItem(false);
         }
-        if(pi.getItemInOffHand().getType().equals(heistObject)) {
+        if (this.plugin.season.isHeistObject(pi.getItemInOffHand())) {
             p.getWorld().dropItem(p.getLocation(), pi.getItemInOffHand());
             pi.setItemInOffHand(null);
         }
         for(int i = 0; i < 36; i++) {
             ItemStack piItem = pi.getItem(i);
-            if(piItem != null && piItem.getType().equals(heistObject)) {
+            if(piItem != null && this.plugin.season.isHeistObject(piItem)) {
                 p.getWorld().dropItem(p.getLocation(), piItem);
                 pi.remove(piItem);
             }

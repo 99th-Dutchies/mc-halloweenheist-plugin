@@ -115,11 +115,10 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
 
     public void destroyHeistObject() {
         Inventory inv = null;
-        Material heistObjectMaterial = this.season.getHeistObjectMaterial();
         switch(this.heistObjectLocation.container) {
             case DROPPED:
                 for(Entity entity : this.mainWorld.getNearbyEntities(this.heistObjectLocation.location, 2, 2, 2)) {
-                    if(entity.getType().equals(EntityType.DROPPED_ITEM) && ((Item) entity).getItemStack().getType().equals(heistObjectMaterial)) {
+                    if(entity.getType().equals(EntityType.DROPPED_ITEM) && this.season.isHeistObject(((Item) entity).getItemStack())) {
                         entity.remove();
                     }
                 }
@@ -128,15 +127,15 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
                 inv = ((BlockInventoryHolder) this.heistObjectLocation.location.getBlock().getState()).getInventory();
                 break;
             case STORAGE_ENTITY:
-                inv = ((BlockInventoryHolder) this.heistObjectLocation.storingEntity).getInventory();
+                inv = ((InventoryHolder) this.heistObjectLocation.storingEntity).getInventory();
                 break;
             case PLAYER:
                 Player p = this.heistObjectLocation.lastPlayer;
                 PlayerInventory pi = p.getInventory();
-                if(pi.getItemInMainHand().getType().equals(heistObjectMaterial)) {
+                if (this.season.isHeistObject(pi.getItemInMainHand())) {
                     pi.setItemInMainHand(null);
                 }
-                if(pi.getItemInOffHand().getType().equals(heistObjectMaterial)) {
+                if (this.season.isHeistObject(pi.getItemInOffHand())) {
                     pi.setItemInOffHand(null);
                 }
                 inv = pi;
@@ -145,8 +144,8 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         if(inv != null) {
             for(int i = 0; i < inv.getSize(); i++) {
                 ItemStack invItem = inv.getItem(i);
-                if(invItem != null && invItem.getType().equals(heistObjectMaterial)) {
-                    inv.remove(invItem);
+                if (invItem != null && this.season.isHeistObject(invItem)) {
+                    inv.removeItem(invItem);
                 }
             }
         }

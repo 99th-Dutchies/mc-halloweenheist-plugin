@@ -7,6 +7,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.text.MessageFormat;
 
@@ -43,6 +44,11 @@ public class Season1 extends ASeason {
         // Generate item stack
         ItemStack dropItemStack = new ItemStack(this.getHeistObjectMaterial(), 1);
         ItemMeta dropItemMeta = dropItemStack.getItemMeta();
+        dropItemMeta.getPersistentDataContainer().set(
+                new NamespacedKey(plugin, "isHeistObject"),
+                PersistentDataType.INTEGER,
+                1
+        );
         dropItemMeta.setDisplayName(this.getHeistObjectName());
         dropItemStack.setItemMeta(dropItemMeta);
 
