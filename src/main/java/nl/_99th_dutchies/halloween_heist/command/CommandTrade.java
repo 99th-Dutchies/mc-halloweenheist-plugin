@@ -17,7 +17,7 @@ public class CommandTrade extends ACommand {
             new ItemTrade("netherwart", Material.ROTTEN_FLESH, 5, Material.NETHER_WART, 1),
             new ItemTrade("ghasttear", Material.TROPICAL_FISH, 1, Material.GHAST_TEAR, 1),
             new ItemTrade("dragonbreath", Material.POISONOUS_POTATO, 1, Material.DRAGON_BREATH, 1),
-            new ItemTrade("magmacream", Material.TURTLE_EGG, 1, Material.MAGMA_CREAM, 1)
+            new ItemTrade("magmacream", Material.TURTLE_EGG, 5, Material.MAGMA_CREAM, 1)
     };
 
     public CommandTrade(HalloweenHeistPlugin plugin) {

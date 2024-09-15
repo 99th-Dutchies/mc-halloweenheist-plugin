@@ -22,11 +22,10 @@ public class CommandLocation extends ACommand {
         }
 
         Player p = (Player) sender;
+        int cooldown = this.cooldownToUsage(p);
 
-        if(p.hasMetadata("nl._99th_dutchies.halloween_heist.location.time") &&
-                p.getMetadata("nl._99th_dutchies.halloween_heist.location.time").get(0).asInt() + 60*60 >= (System.currentTimeMillis() / 1000L)) {
-            int seconds = (int) (p.getMetadata("nl._99th_dutchies.halloween_heist.location.time").get(0).asInt() + 60*60 - (System.currentTimeMillis() / 1000L));
-            sender.sendMessage(ChatColor.RED + "You have to wait " + TimeHelper.secondsToTime(seconds) + " before using /location.");
+        if (cooldown > 0) {
+            sender.sendMessage(ChatColor.RED + "You have to wait " + TimeHelper.secondsToTime(cooldown) + " before using /location.");
         } else {
             // Send location
             Location approxLocation = this.plugin.heistObjectLocation.getLocationWithRandomOffset();
@@ -44,5 +43,19 @@ public class CommandLocation extends ACommand {
         }
 
         return true;
+    }
+
+    private int cooldownToUsage(Player p) {
+        if (!p.hasMetadata("nl._99th_dutchies.halloween_heist.location.time")) {
+            return 0;
+        }
+
+        // Default cooldown time: 60 minutes, down to 30 minutes for last hour of gameplay.
+        int cooldownTime = 60 * 60;
+        if (this.plugin.getTimeTillEnd() <= 60 * 60) {
+            cooldownTime = 30 * 60;
+        }
+
+        return (int) (p.getMetadata("nl._99th_dutchies.halloween_heist.location.time").get(0).asInt() + cooldownTime - (System.currentTimeMillis() / 1000L));
     }
 }
