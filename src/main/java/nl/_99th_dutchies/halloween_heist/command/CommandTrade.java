@@ -9,10 +9,15 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Arrays;
+
 public class CommandTrade extends ACommand {
     private static ItemTrade[] config = new ItemTrade[] {
             new ItemTrade("glowstone", Material.REDSTONE, 3, Material.GLOWSTONE_DUST, 1),
             new ItemTrade("netherwart", Material.ROTTEN_FLESH, 5, Material.NETHER_WART, 1),
+            new ItemTrade("ghasttear", Material.TROPICAL_FISH, 1, Material.GHAST_TEAR, 1),
+            new ItemTrade("dragonbreath", Material.POISONOUS_POTATO, 1, Material.DRAGON_BREATH, 1),
+            new ItemTrade("magmacream", Material.TURTLE_EGG, 1, Material.MAGMA_CREAM, 1)
     };
 
     public CommandTrade(HalloweenHeistPlugin plugin) {
@@ -26,15 +31,30 @@ public class CommandTrade extends ACommand {
             return false;
         }
 
-        if (args.length < 2) {
-            sender.sendMessage(ChatColor.RED + "Missing arguments for /trade");
+        if (args.length < 1) {
+            sender.sendMessage(ChatColor.RED + "Missing arguments for /trade. Usage: /trade [material] [count]");
             return false;
         }
         ItemTrade itemTrade = CommandTrade.getConfig(args[0]);
         if (itemTrade == null) {
-            sender.sendMessage(ChatColor.RED + "Unknown material for /trade");
+            StringBuilder knownMaterials = new StringBuilder();
+            for(ItemTrade it : CommandTrade.config) {
+                knownMaterials.append(
+                        knownMaterials.toString() == "" ? it.getName() : ", " + it.getName()
+                );
+            }
+
+            sender.sendMessage(ChatColor.RED + "Unknown material for /trade. Known materials: " + knownMaterials);
             return false;
         }
+        if (args.length == 2) {
+            sender.sendMessage(ChatColor.RED + "Missing arguments for /trade. Usage: /trade [material] [count]");
+            sender.sendMessage(ChatColor.YELLOW + "Trade recipe: " +
+                    itemTrade.getSourceCount() + " " + itemTrade.getSourceMaterial().name() + " -> " +
+                    itemTrade.getTargetCount() + " " + itemTrade.getTargetMaterial().name());
+            return false;
+        }
+
 
         Player p = (Player) sender;
 
