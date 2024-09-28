@@ -95,6 +95,9 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
             case 2:
                 this.season = new Season2(this);
                 break;
+            case 3:
+                this.season = new Season3(this);
+                break;
         }
     }
 
@@ -201,7 +204,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
             if (team == null) {
                 return;
             }
-            String message = ChatColor.GOLD + "[TEAM] " + ChatColor.RESET + event.getPlayer().getDisplayName() + ":";
+            String message = ChatColor.GOLD + "[TEAM] " + ChatColor.RESET + event.getPlayer().getDisplayName() + ":" + event.getMessage();
             for (Player player : team.getPlayers()) {
                 player.sendMessage(message);
             }

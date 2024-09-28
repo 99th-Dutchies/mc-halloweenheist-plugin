@@ -14,8 +14,8 @@ commands:
     description: Get the current location of the Heist Object
     usage: /location
   trade:
-    description: Trade (3 redstone => 1 glowstone dust or 5 rotten flesh => 1 nether wart)
-    usage: /trade [glowstone / netherwart] [amount]
+    description: Trade
+    usage: /trade [material] [amount]
   team:
     description: Assign a player to a team. For console use only!
     usage: /team [team] [player]

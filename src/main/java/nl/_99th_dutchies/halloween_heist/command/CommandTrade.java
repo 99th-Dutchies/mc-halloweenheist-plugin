@@ -31,7 +31,7 @@ public class CommandTrade extends ACommand {
 
         if (args.length < 1) {
             sender.sendMessage(ChatColor.RED + "Missing arguments for /trade. Usage: /trade [material] [count]");
-            return false;
+            return true;
         }
         ItemTrade itemTrade = CommandTrade.getConfig(args[0]);
         if (itemTrade == null) {
@@ -43,22 +43,20 @@ public class CommandTrade extends ACommand {
             }
 
             sender.sendMessage(ChatColor.RED + "Unknown material for /trade. Known materials: " + knownMaterials);
-            return false;
+            return true;
         }
-        if (args.length == 2) {
+        if (args.length < 2) {
             sender.sendMessage(ChatColor.RED + "Missing arguments for /trade. Usage: /trade [material] [count]");
             sender.sendMessage(ChatColor.YELLOW + "Trade recipe: " +
                     itemTrade.getSourceCount() + " " + itemTrade.getSourceMaterial().name() + " -> " +
                     itemTrade.getTargetCount() + " " + itemTrade.getTargetMaterial().name());
-            return false;
+            return true;
         }
-
 
         Player p = (Player) sender;
 
         int available = 0;
         int amount = 1;
-
 
         try {
             amount = Integer.parseInt(args[1]);

@@ -43,6 +43,7 @@ public class Season3 extends ASeason {
 
         // Get container
         Block dropBlock = dropLocation.getBlock();
+        dropBlock.setType(this.getHeistObjectSpawncontainer());
         Chest dropChest = (Chest)dropBlock.getState();
         dropChest.setCustomName("The Briefcase");
         Inventory dropChestInventory = dropChest.getBlockInventory();
