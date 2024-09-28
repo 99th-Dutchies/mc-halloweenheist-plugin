@@ -51,7 +51,9 @@ public class CommandKit extends ACommand {
             items.add(new InventoryItem(Material.IRON_SHOVEL, 1));
             items.add(new InventoryItem(Material.IRON_HOE, 1));
             items.add(new InventoryItem(Material.TORCH, 16));
-            items.add(new InventoryItem(Material.GOLDEN_APPLE, 1, "Breakfast burrito"));
+            if (this.plugin.getTimeTillEnd() > 5 * 60 * 60) {
+                items.add(new InventoryItem(Material.GOLDEN_APPLE, 1, "Breakfast burrito"));
+            }
             items.add(new InventoryItem(Material.COOKED_CHICKEN, 8, "Wing Slut Chicken"));
             items.add(new InventoryItem(Material.COOKED_BEEF, 8, "Steak Buds Steak"));
             items.add(new InventoryItem(Material.MUSHROOM_STEW, 8, "Terry's Yoghurt"));
