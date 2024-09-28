@@ -79,18 +79,15 @@ public class Season3 extends ASeason {
     @Override
     public void sendWinnerMessage(Player winner) {
         if(winner == null) {
-            for(Player p : this.plugin.getServer().getOnlinePlayers()) {
-                p.sendTitle(
-                        MessageFormat.format("{0}Happy Halloween!", ChatColor.GOLD),
-                        MessageFormat.format("{0}Technically, there was no winner.", ChatColor.GRAY),
-                        10,
-                        100,
-                        20);
-            }
-
-            Bukkit.broadcastMessage(MessageFormat.format("{0}So, since nobody properly obtained the " + this.getHeistObjectName() + "{0}, no one really won the heist this year.", ChatColor.BLUE));
+            super.sendWinnerMessage(null);
+            return;
         } else {
             Team winningTeam = this.plugin.teamManager.getTeamForPlayer(winner);
+
+            if (winningTeam == null) {
+                super.sendWinnerMessage(winner);
+                return;
+            }
 
             int count = 0;
             StringBuilder winners = new StringBuilder();

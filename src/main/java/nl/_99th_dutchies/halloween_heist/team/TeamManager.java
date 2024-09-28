@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 
 import static org.bukkit.Bukkit.getLogger;
@@ -44,6 +45,8 @@ public class TeamManager {
     }
 
     private void loadFromConfig() {
+        System.out.println("Loading teams from config");
+
         ConfigurationSection cs = this.config.getConfigurationSection("teams");
         if (cs == null) {
             return;
@@ -51,12 +54,16 @@ public class TeamManager {
 
         Set<String> teamNames = cs.getKeys(false);
         for (String teamName : teamNames) {
+            System.out.println("Loading team '" + teamName + "'");
             Team team = new Team(teamName);
 
             List<String> playerNames = cs.getStringList(teamName);
-            for (String playerName : playerNames) {
-                Player player = Bukkit.getPlayerExact(playerName);
-                if (player != null) {
+            for (String playerUuid : playerNames) {
+                Player player = Bukkit.getPlayer(UUID.fromString(playerUuid));
+                if (player == null) {
+                    System.out.println("Could not find player " + playerUuid + " to add to team " + teamName);
+                } else {
+                    System.out.println("Adding player " + playerUuid + " (" + player.getDisplayName() + ") to team " + teamName);
                     team.addPlayer(player);
                 }
             }
@@ -73,11 +80,11 @@ public class TeamManager {
         YamlConfiguration config = new YamlConfiguration();
         ConfigurationSection cs = config.createSection("teams");
         for (Team team : this.teams) {
-            List<String> playerNames = new ArrayList<>();
+            List<String> playerUuids = new ArrayList<>();
             for (Player player : team.getPlayers()) {
-                playerNames.add(player.getName());
+                playerUuids.add(player.getUniqueId().toString());
             }
-            cs.set(team.getName(), playerNames);
+            cs.set(team.getName(), playerUuids);
         }
         this.config = config;
 

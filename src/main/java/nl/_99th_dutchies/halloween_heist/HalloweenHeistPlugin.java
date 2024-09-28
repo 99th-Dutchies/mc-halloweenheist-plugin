@@ -78,7 +78,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
             this.season.spawnHeistObject();
         }
         worldBorderManager.create();
-        if(!this.config.getBoolean("teams.enabled")) {
+        if(this.config.getBoolean("teams.enabled")) {
             this.teamManager.load();
         }
 
@@ -204,7 +204,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
             if (team == null) {
                 return;
             }
-            String message = ChatColor.GOLD + "[TEAM] " + ChatColor.RESET + event.getPlayer().getDisplayName() + ":" + event.getMessage();
+            String message = ChatColor.GOLD + "[TEAM] " + ChatColor.RESET + event.getPlayer().getDisplayName() + ": " + event.getMessage().substring(1);
             for (Player player : team.getPlayers()) {
                 player.sendMessage(message);
             }
