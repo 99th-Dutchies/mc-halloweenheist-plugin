@@ -1,14 +1,13 @@
 package nl._99th_dutchies.halloween_heist.season;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
+import nl._99th_dutchies.halloween_heist.team.Team;
+import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -74,5 +73,49 @@ public class Season3 extends ASeason {
 
         // Update heistState
         this.heistObjectSpawned(dropChest.getBlockInventory().getHolder(), dropLocation);
+    }
+
+    @Override
+    public void sendWinnerMessage(Player winner) {
+        if(winner == null) {
+            for(Player p : this.plugin.getServer().getOnlinePlayers()) {
+                p.sendTitle(
+                        MessageFormat.format("{0}Happy Halloween!", ChatColor.GOLD),
+                        MessageFormat.format("{0}Technically, there was no winner.", ChatColor.GRAY),
+                        10,
+                        100,
+                        20);
+            }
+
+            Bukkit.broadcastMessage(MessageFormat.format("{0}So, since nobody properly obtained the " + this.getHeistObjectName() + "{0}, no one really won the heist this year.", ChatColor.BLUE));
+        } else {
+            Team winningTeam = this.plugin.teamManager.getTeamForPlayer(winner);
+
+            int count = 0;
+            StringBuilder winners = new StringBuilder();
+            for (Player player : winningTeam.getPlayers()) {
+                if (count == 0) {
+                    winners.append(player.getDisplayName());
+                } else if (count == winningTeam.getPlayers().size() - 1) {
+                    winners.append(" and ").append(player.getDisplayName());
+                } else {
+                    winners.append(", ").append(player.getDisplayName());
+                }
+
+                count++;
+            }
+
+            for(Player p : this.plugin.getServer().getOnlinePlayers()) {
+                p.sendTitle(
+                        MessageFormat.format("{0}Happy Halloween!", ChatColor.GOLD),
+                        MessageFormat.format("{0}{1}{2} are amazing players / geniuses.", ChatColor.BLUE, ChatColor.BOLD, winners.toString()),
+                        10,
+                        100,
+                        20);
+            }
+
+            Bukkit.broadcastMessage(MessageFormat.format("{0}{1}ATTENTION, EVERYONE!", ChatColor.BLUE, ChatColor.BOLD));
+            Bukkit.broadcastMessage(MessageFormat.format("{0}{1}{2} are amazing players / geniuses.", ChatColor.BLUE, ChatColor.BOLD, winners.toString()));
+        }
     }
 }
