@@ -14,3 +14,5 @@ kit:
   enabled: true
   cooldown: 300
 antiGriefing: 20
+teams:
+  enabled: false

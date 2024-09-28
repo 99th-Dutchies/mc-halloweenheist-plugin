@@ -5,6 +5,8 @@ import nl._99th_dutchies.halloween_heist.command.*;
 import nl._99th_dutchies.halloween_heist.listener.*;
 import nl._99th_dutchies.halloween_heist.scoreboard.ScoreboardManager;
 import nl._99th_dutchies.halloween_heist.season.*;
+import nl._99th_dutchies.halloween_heist.team.Team;
+import nl._99th_dutchies.halloween_heist.team.TeamManager;
 import nl._99th_dutchies.halloween_heist.util.*;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -15,6 +17,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.*;
@@ -29,6 +33,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
     private ScoreboardManager scoreboardManager;
     private PlayerManager playerManager;
     private WorldBorderManager worldBorderManager;
+    public TeamManager teamManager;
 
     public final FileConfiguration config = getConfig();
     public HeistState heistState;
@@ -50,6 +55,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         this.playerManager = new PlayerManager(this);
         this.worldBorderManager = new WorldBorderManager(this);
         this.scoreboardManager = new ScoreboardManager();
+        this.teamManager = new TeamManager(this);
 
         // Init events
         Bukkit.getPluginManager().registerEvents(this, this);
@@ -64,6 +70,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         this.getCommand("kit").setExecutor(new CommandKit(this));
         this.getCommand("location").setExecutor(new CommandLocation(this));
         this.getCommand("trade").setExecutor(new CommandTrade(this));
+        this.getCommand("team").setExecutor(new CommandTeam(this));
 
         // Set heist data
         this.heistState = new HeistState(this);
@@ -72,6 +79,9 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
             this.season.spawnHeistObject();
         }
         worldBorderManager.create();
+        if(!this.config.getBoolean("teams.enabled")) {
+            this.loadTeams();
+        }
 
         // Start timers
         this.startTimedTasks();
@@ -151,6 +161,10 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         }
     }
 
+    private void loadTeams() {
+
+    }
+
     private void removeRecipe(Material material) {
         Iterator<Recipe> iter = this.getServer().recipeIterator();
         while (iter.hasNext()) {
@@ -180,6 +194,41 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
 
         if(config.getBoolean("realTimeCycle.active")) {
             Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new RealTimeCycle(this), 0, 20L);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerChat(AsyncPlayerChatEvent event) {
+        if(event.getMessage().startsWith("!")) {
+            event.setCancelled(true);
+
+            Team team = this.teamManager.getTeamForPlayer(event.getPlayer());
+            if (team == null) {
+                return;
+            }
+            String message = new StringBuilder()
+                    .append(ChatColor.GOLD)
+                    .append("[TEAM] ")
+                    .append(ChatColor.RESET)
+                    .append(event.getPlayer().getDisplayName() + ":")
+                    .toString();
+            for (Player player : team.getPlayers()) {
+                player.sendMessage(message);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerHit(EntityDamageByEntityEvent event) {
+        if (!(event.getDamager() instanceof Player && event.getEntity() instanceof Player)) {
+            return;
+        }
+
+        Player attacker = (Player) event.getDamager();
+        Player defender = (Player) event.getEntity();
+        Team defenderTeam = this.teamManager.getTeamForPlayer(defender);
+        if (defenderTeam.hasPlayer(attacker)) {
+            event.setCancelled(true);
         }
     }
 
