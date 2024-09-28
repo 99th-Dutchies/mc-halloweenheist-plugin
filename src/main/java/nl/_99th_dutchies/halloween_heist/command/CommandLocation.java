@@ -34,6 +34,8 @@ public class CommandLocation extends ACommand {
                 return false;
             }
 
+            p.playSound(p.getLocation(), "heist.halloweeeen", 1, 1);
+
             sender.sendMessage("The " + this.plugin.season.getHeistObjectName() + " can be found somewhere around [X:" + ((int) approxLocation.getX()) + ",Y:" + ((int) approxLocation.getY()) + ",Z:" + ((int) approxLocation.getZ()) + "]");
 
             p.setMetadata("nl._99th_dutchies.halloween_heist.location.time", new FixedMetadataValue(plugin, (System.currentTimeMillis() / 1000L)));
