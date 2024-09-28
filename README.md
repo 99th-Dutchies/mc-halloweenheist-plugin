@@ -7,7 +7,7 @@ In order to possess the Medal of Valor at the end of the day, players can surviv
 And the time will correspond with the time in real life, the later it gets, more zombies will spawn...
 To speed up the game, you can claim a kit with /kit, this can only be used once every life.  
 
-####It's heist time!
+#### It's heist time!
 
 ## Requirements
 
@@ -69,6 +69,10 @@ Once you have your server properly installed, download the latest version of the
 - `antiGriefing`  
   *Default `20`*  
   The distance from (0,0) which will be protected against griefing.
+- `teams`  
+  -- `enabled`  
+  *Default `false`*  
+  Whether teams are enabled. Note that teams need to be configured before having effect. 
 
 ## Development
 Want to contribute? Great!
