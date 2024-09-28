@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -22,17 +21,15 @@ public class TeamManager {
     private final HalloweenHeistPlugin plugin;
     private final File configFile;
     private FileConfiguration config;
-    private ArrayList<Team> teams = new ArrayList<Team>();
+    private final ArrayList<Team> teams = new ArrayList<>();
 
     public TeamManager(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
         this.configFile = new File(plugin.getDataFolder(), "teams.yml");
         this.config = new YamlConfiguration();
-
-        this.load();
     }
 
-    private void load() {
+    public void load() {
         if(!this.configFile.exists()){
             this.configFile.getParentFile().mkdirs();
             plugin.saveResource("teams.yml", false);
@@ -76,7 +73,7 @@ public class TeamManager {
         YamlConfiguration config = new YamlConfiguration();
         ConfigurationSection cs = config.createSection("teams");
         for (Team team : this.teams) {
-            List<String> playerNames = new ArrayList<String>();
+            List<String> playerNames = new ArrayList<>();
             for (Player player : team.getPlayers()) {
                 playerNames.add(player.getName());
             }

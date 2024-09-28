@@ -4,7 +4,7 @@ public class TimeHelper {
     public static String secondsToTime(int seconds) {
         String time = "";
         if(seconds > 60 * 60) {
-            int h = (int) Math.floor(seconds / 60*60);
+            int h = (int) Math.floor(seconds / (60*60));
             time += h + (h == 1 ? " hour, " : " hours, ");
         }
         if(seconds > 60) {

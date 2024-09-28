@@ -42,7 +42,7 @@ public class CommandKit extends ACommand {
         } else {
             ArrayList<InventoryItem> items = new ArrayList<>();
 
-            if (plugin.getTimeTillEnd() > 1*60*60) {
+            if (plugin.getTimeTillEnd() > 60*60) {
                 items.add(new InventoryItem(Material.CHAINMAIL_BOOTS, 1, "Tactical gear"));
                 items.add(new InventoryItem(Material.CHAINMAIL_CHESTPLATE, 1, "Tactical gear"));
                 items.add(new InventoryItem(Material.CHAINMAIL_HELMET, 1, "Tactical gear"));

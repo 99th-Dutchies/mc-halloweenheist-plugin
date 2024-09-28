@@ -5,8 +5,8 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 
 public class Team {
-    private String name;
-    private ArrayList<Player> players = new ArrayList<Player>();
+    private final String name;
+    private final ArrayList<Player> players = new ArrayList<>();
 
     public Team(String name) {
         this.name = name;

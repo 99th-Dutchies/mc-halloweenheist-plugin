@@ -18,7 +18,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.*;
@@ -48,7 +47,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         saveConfig();
 
         // Load world
-        this.mainWorld = this.getServer().getWorld(this.config.getString("worldName"));
+        this.mainWorld = this.getServer().getWorld(this.config.getString("worldName", "world"));
         this.setSeason();
 
         // Load managers
@@ -80,7 +79,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         }
         worldBorderManager.create();
         if(!this.config.getBoolean("teams.enabled")) {
-            this.loadTeams();
+            this.teamManager.load();
         }
 
         // Start timers
@@ -161,16 +160,12 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         }
     }
 
-    private void loadTeams() {
-
-    }
-
     private void removeRecipe(Material material) {
-        Iterator<Recipe> iter = this.getServer().recipeIterator();
-        while (iter.hasNext()) {
-            Recipe r = iter.next();
+        Iterator<Recipe> recipeIterator = this.getServer().recipeIterator();
+        while (recipeIterator.hasNext()) {
+            Recipe r = recipeIterator.next();
             if (r.getResult().isSimilar(new ItemStack(material))) {
-                iter.remove();
+                recipeIterator.remove();
             }
         }
     }
@@ -206,12 +201,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
             if (team == null) {
                 return;
             }
-            String message = new StringBuilder()
-                    .append(ChatColor.GOLD)
-                    .append("[TEAM] ")
-                    .append(ChatColor.RESET)
-                    .append(event.getPlayer().getDisplayName() + ":")
-                    .toString();
+            String message = ChatColor.GOLD + "[TEAM] " + ChatColor.RESET + event.getPlayer().getDisplayName() + ":";
             for (Player player : team.getPlayers()) {
                 player.sendMessage(message);
             }

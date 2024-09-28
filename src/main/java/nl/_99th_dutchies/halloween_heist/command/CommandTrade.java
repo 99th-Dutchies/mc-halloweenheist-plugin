@@ -9,10 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-
 public class CommandTrade extends ACommand {
-    private static ItemTrade[] config = new ItemTrade[] {
+    private static final ItemTrade[] config = new ItemTrade[] {
             new ItemTrade("glowstone", Material.REDSTONE, 3, Material.GLOWSTONE_DUST, 1),
             new ItemTrade("netherwart", Material.ROTTEN_FLESH, 5, Material.NETHER_WART, 1),
             new ItemTrade("ghasttear", Material.TROPICAL_FISH, 1, Material.GHAST_TEAR, 1),
@@ -40,7 +38,7 @@ public class CommandTrade extends ACommand {
             StringBuilder knownMaterials = new StringBuilder();
             for(ItemTrade it : CommandTrade.config) {
                 knownMaterials.append(
-                        knownMaterials.toString() == "" ? it.getName() : ", " + it.getName()
+                        knownMaterials.toString().equals("") ? it.getName() : ", " + it.getName()
                 );
             }
 
