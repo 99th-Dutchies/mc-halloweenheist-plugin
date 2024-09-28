@@ -5,14 +5,18 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.text.MessageFormat;
+import java.util.UUID;
 
 public class Season3 extends ASeason {
     public Season3(HalloweenHeistPlugin plugin) {
@@ -51,6 +55,16 @@ public class Season3 extends ASeason {
                 new NamespacedKey(plugin, "isHeistObject"),
                 PersistentDataType.INTEGER,
                 1
+        );
+        dropItemMeta.addAttributeModifier(
+                Attribute.GENERIC_MAX_HEALTH,
+                new AttributeModifier(
+                        UUID.randomUUID(),
+                        "Crown Boost",
+                        4.0,
+                        AttributeModifier.Operation.ADD_NUMBER,
+                        EquipmentSlot.HEAD
+                )
         );
         dropItemMeta.setDisplayName(this.getHeistObjectName());
         dropItemStack.setItemMeta(dropItemMeta);
