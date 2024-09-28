@@ -41,15 +41,28 @@ public class CommandKit extends ACommand {
             sender.sendMessage(ChatColor.RED + "You have to wait " + TimeHelper.secondsToTime(seconds) + " before using /kit.");
         } else {
             ArrayList<InventoryItem> items = new ArrayList<>();
-            items.add(new InventoryItem(Material.CHAINMAIL_BOOTS, 1, "Tactical gear"));
-            items.add(new InventoryItem(Material.CHAINMAIL_CHESTPLATE, 1, "Tactical gear"));
-            items.add(new InventoryItem(Material.CHAINMAIL_HELMET, 1, "Tactical gear"));
-            items.add(new InventoryItem(Material.CHAINMAIL_LEGGINGS, 1, "Tactical gear"));
-            items.add(new InventoryItem(Material.IRON_SWORD, 1, "Zorton's Sword"));
-            items.add(new InventoryItem(Material.IRON_PICKAXE, 1));
-            items.add(new InventoryItem(Material.IRON_AXE, 1, "Rosa's Battle Axe"));
-            items.add(new InventoryItem(Material.IRON_SHOVEL, 1));
-            items.add(new InventoryItem(Material.IRON_HOE, 1));
+
+            if (plugin.getTimeTillEnd() > 1*60*60) {
+                items.add(new InventoryItem(Material.CHAINMAIL_BOOTS, 1, "Tactical gear"));
+                items.add(new InventoryItem(Material.CHAINMAIL_CHESTPLATE, 1, "Tactical gear"));
+                items.add(new InventoryItem(Material.CHAINMAIL_HELMET, 1, "Tactical gear"));
+                items.add(new InventoryItem(Material.CHAINMAIL_LEGGINGS, 1, "Tactical gear"));
+                items.add(new InventoryItem(Material.IRON_SWORD, 1, "Zorton's Sword"));
+                items.add(new InventoryItem(Material.IRON_PICKAXE, 1));
+                items.add(new InventoryItem(Material.IRON_AXE, 1, "Rosa's Battle Axe"));
+                items.add(new InventoryItem(Material.IRON_SHOVEL, 1));
+                items.add(new InventoryItem(Material.IRON_HOE, 1));
+            } else {
+                items.add(new InventoryItem(Material.IRON_BOOTS, 1, "Tactical gear"));
+                items.add(new InventoryItem(Material.IRON_CHESTPLATE, 1, "Tactical gear"));
+                items.add(new InventoryItem(Material.IRON_HELMET, 1, "Tactical gear"));
+                items.add(new InventoryItem(Material.IRON_LEGGINGS, 1, "Tactical gear"));
+                items.add(new InventoryItem(Material.DIAMOND_SWORD, 1, "Zorton's Sword"));
+                items.add(new InventoryItem(Material.DIAMOND_PICKAXE, 1));
+                items.add(new InventoryItem(Material.DIAMOND_AXE, 1, "Rosa's Battle Axe"));
+                items.add(new InventoryItem(Material.DIAMOND_SHOVEL, 1));
+                items.add(new InventoryItem(Material.DIAMOND_HOE, 1));
+            }
             items.add(new InventoryItem(Material.TORCH, 16));
             if (this.plugin.getTimeTillEnd() > 5 * 60 * 60) {
                 items.add(new InventoryItem(Material.GOLDEN_APPLE, 1, "Breakfast burrito"));
