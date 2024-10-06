@@ -77,8 +77,6 @@ public class HeistObjectTrackingListener implements Listener {
 
     @EventHandler
     public void onItemSpawnEvent(ItemSpawnEvent event) {
-        System.out.println("Item spawned into world: " + event.getEntityType());
-
         if (this.plugin.season.isHeistObject(event.getEntity().getItemStack())) {
             this.plugin.heistObjectLocation.updateDropped(event.getEntity().getLocation(), event.getEntity());
             System.out.println("Spawned HeistObject into world");
