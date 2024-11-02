@@ -26,7 +26,7 @@ public class CommandTeam extends ACommand {
         }
 
         if (args.length < 1) {
-            sender.sendMessage(ChatColor.RED + "Invalid usage for /team. Usage: /team create [team] OR /team add [team] [player]");
+            sender.sendMessage(ChatColor.RED + "Invalid usage for /team. Usage: /team create [team] OR /team add [team] [player] OR /team remove [team] [player]");
             return false;
         }
 
@@ -35,8 +35,10 @@ public class CommandTeam extends ACommand {
                 return this.handleTeamCreate(sender, command, args);
             case "add":
                 return this.handleTeamAdd(sender, command, args);
+            case "remove":
+                return this.handleTeamRemove(sender, command, args);
             default:
-                sender.sendMessage(ChatColor.RED + "Invalid usage for /team. Usage: /team create [team] OR /team add [team] [player]");
+                sender.sendMessage(ChatColor.RED + "Invalid usage for /team. Usage: /team create [team] OR /team add [team] [player] OR /team remove [team] [player]");
                 return false;
         }
     }
@@ -61,6 +63,31 @@ public class CommandTeam extends ACommand {
     private boolean handleTeamAdd(CommandSender sender, Command command, String[] args) {
         if (args.length != 3) {
             sender.sendMessage(ChatColor.RED + "Invalid usage for /team add. Usage: /team add [team] [player]");
+            return false;
+        }
+
+        String teamName = args[1];
+        Team team = this.plugin.teamManager.getTeamByName(teamName);
+        if(team == null) {
+            sender.sendMessage(ChatColor.RED + "Team '" + teamName + "' does not exist");
+            return false;
+        }
+
+        String playerName = args[2];
+        Player player = Bukkit.getPlayerExact(playerName);
+        if (player == null) {
+            sender.sendMessage(ChatColor.RED + "Could not find player " + playerName);
+            return false;
+        }
+
+        this.plugin.teamManager.addPlayerToTeam(player, team);
+        sender.sendMessage(ChatColor.GREEN + "Added player " + playerName + " to " + teamName);
+        return true;
+    }
+
+    private boolean handleTeamRemove(CommandSender sender, Command command, String[] args) {
+        if (args.length != 3) {
+            sender.sendMessage(ChatColor.RED + "Invalid usage for /team remove. Usage: /team remove [team] [player]");
             return false;
         }
 

@@ -235,6 +235,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         Player p = e.getPlayer();
 
         scoreboardManager.addToPlayerCache(p);
+        teamManager.reloadPlayer(p);
     }
 
     @EventHandler

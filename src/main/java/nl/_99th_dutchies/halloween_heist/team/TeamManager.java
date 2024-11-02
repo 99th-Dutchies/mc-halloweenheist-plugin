@@ -22,7 +22,7 @@ public class TeamManager {
     private final HalloweenHeistPlugin plugin;
     private final File configFile;
     private FileConfiguration config;
-    private final ArrayList<Team> teams = new ArrayList<>();
+    private ArrayList<Team> teams = new ArrayList<>();
 
     public TeamManager(HalloweenHeistPlugin plugin) {
         this.plugin = plugin;
@@ -52,6 +52,7 @@ public class TeamManager {
             return;
         }
 
+        this.teams = new ArrayList<>();
         Set<String> teamNames = cs.getKeys(false);
         for (String teamName : teamNames) {
             System.out.println("Loading team '" + teamName + "'");
@@ -116,15 +117,56 @@ public class TeamManager {
     }
 
     public void addPlayerToTeam(Player player, Team team) {
+        if (team.hasPlayer(player)) {
+            return;
+        }
+
         team.addPlayer(player);
 
         for (Team otherTeam : this.teams) {
-            if (otherTeam != team && otherTeam.hasPlayer(player)) {
-                otherTeam.removePlayer(player);
+            if (otherTeam != team) {
+                this.removePlayerFromTeam(player, otherTeam);
             }
         }
 
         this.save();
+    }
+
+    public void removePlayerFromTeam(Player player, Team team) {
+        for (Player teamPlayer : team.getPlayers()) {
+            if (teamPlayer.getUniqueId().equals(player.getUniqueId())) {
+                team.removePlayer(teamPlayer);
+            }
+        }
+
+        this.save();
+    }
+
+    public void reloadPlayer(Player player) {
+        System.out.println("Reloading player from config");
+
+        ConfigurationSection cs = this.config.getConfigurationSection("teams");
+        if (cs == null) {
+            return;
+        }
+
+        Set<String> teamNames = cs.getKeys(false);
+        for (String teamName : teamNames) {
+            List<String> playerNames = cs.getStringList(teamName);
+            Team team = this.getTeamByName(teamName);
+            if (team == null) {
+                continue;
+            }
+
+            for (String playerUuid : playerNames) {
+                Player configPlayer = Bukkit.getPlayer(UUID.fromString(playerUuid));
+                if (configPlayer != null && configPlayer.getUniqueId().equals(player.getUniqueId())) {
+                    System.out.println("Reloading player " + playerUuid + " (" + player.getDisplayName() + ") to team " + teamName);
+                    this.removePlayerFromTeam(player, team);
+                    this.addPlayerToTeam(player, team);
+                }
+            }
+        }
     }
 
     public Team getTeamForPlayer(Player player) {
