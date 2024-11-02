@@ -4,10 +4,7 @@ import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockBurnEvent;
-import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 
 public class AntiGriefingListener implements Listener {
@@ -33,6 +30,13 @@ public class AntiGriefingListener implements Listener {
 
     @EventHandler
     public void onBlockBurn(BlockBurnEvent event) {
+        if(this.isProtected(this.plugin.config.getInt("antiGriefing", 0), event.getBlock().getLocation())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockIgnite(BlockIgniteEvent event) {
         if(this.isProtected(this.plugin.config.getInt("antiGriefing", 0), event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
