@@ -226,6 +226,20 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
     }
 
     @EventHandler
+    public void onPlayerHitByProjectile(ProjectileHitEvent event) {
+        if (!(event.getEntity().getShooter() instanceof Player && event.getHitEntity() instanceof Player)) {
+            return;
+        }
+
+        Player attacker = (Player) event.getEntity().getShooter();
+        Player defender = (Player) event.getHitEntity();
+        Team defenderTeam = this.teamManager.getTeamForPlayer(defender);
+        if (defenderTeam != null && defenderTeam.hasPlayer(attacker)) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
         event.getEntity().removeMetadata("nl._99th_dutchies.halloween_heist.hasUsedKit", this);
     }
