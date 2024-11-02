@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
 public class AntiGriefingListener implements Listener {
     private final HalloweenHeistPlugin plugin;
@@ -23,6 +24,13 @@ public class AntiGriefingListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
+        if(this.isProtected(this.plugin.config.getInt("antiGriefing", 0), event.getBlock().getLocation())) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerBucketEmpty(PlayerBucketEmptyEvent event) {
         if(this.isProtected(this.plugin.config.getInt("antiGriefing", 0), event.getBlock().getLocation())) {
             event.setCancelled(true);
         }
