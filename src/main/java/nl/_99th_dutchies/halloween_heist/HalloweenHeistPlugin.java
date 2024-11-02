@@ -75,7 +75,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         this.heistState = new HeistState(this);
         this.heistObjectLocation = new HeistObjectLocation(this);
         if(!heistState.getBoolean("itemLoaded")) {
-            this.season.spawnHeistObject();
+            this.season.spawnHeistObject(false);
         }
         worldBorderManager.create();
         if(this.config.getBoolean("teams.enabled")) {
@@ -121,7 +121,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
 
     public void respawnHeistObject() {
         this.destroyHeistObject();
-        this.season.spawnHeistObject();
+        this.season.spawnHeistObject(true);
         this.playerManager.resetLocationTimers();
     }
 

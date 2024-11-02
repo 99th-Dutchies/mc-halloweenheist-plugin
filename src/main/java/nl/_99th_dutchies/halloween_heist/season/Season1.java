@@ -32,7 +32,7 @@ public class Season1 extends ASeason {
     }
 
     @Override
-    public void spawnHeistObject() {
+    public void spawnHeistObject(boolean isRespawn) {
         Location dropLocation = this.generateLocation();
 
         // Generate container

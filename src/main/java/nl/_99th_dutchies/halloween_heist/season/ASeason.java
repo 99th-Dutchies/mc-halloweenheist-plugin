@@ -30,7 +30,7 @@ public abstract class ASeason {
     public abstract Material getHeistObjectMaterial();
     public abstract String getHeistObjectName();
 
-    public abstract void spawnHeistObject();
+    public abstract void spawnHeistObject(boolean isRespawn);
 
     public void sendWinnerMessage(Player winner) {
         if(winner == null) {

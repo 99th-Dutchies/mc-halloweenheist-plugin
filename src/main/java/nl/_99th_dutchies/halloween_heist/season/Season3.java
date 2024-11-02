@@ -38,8 +38,12 @@ public class Season3 extends ASeason {
     }
 
     @Override
-    public void spawnHeistObject() {
-        Location dropLocation = new Location(this.plugin.mainWorld, -15, 77, 0);
+    public void spawnHeistObject(boolean isRespawn) {
+        Location dropLocation = this.generateLocation();
+
+        if (!isRespawn) {
+            dropLocation = new Location(this.plugin.mainWorld, -15, 77, 0);
+        }
 
         // Get container
         Block dropBlock = dropLocation.getBlock();
@@ -81,39 +85,39 @@ public class Season3 extends ASeason {
         if(winner == null) {
             super.sendWinnerMessage(null);
             return;
-        } else {
-            Team winningTeam = this.plugin.teamManager.getTeamForPlayer(winner);
-
-            if (winningTeam == null) {
-                super.sendWinnerMessage(winner);
-                return;
-            }
-
-            int count = 0;
-            StringBuilder winners = new StringBuilder();
-            for (Player player : winningTeam.getPlayers()) {
-                if (count == 0) {
-                    winners.append(player.getDisplayName());
-                } else if (count == winningTeam.getPlayers().size() - 1) {
-                    winners.append(" and ").append(player.getDisplayName());
-                } else {
-                    winners.append(", ").append(player.getDisplayName());
-                }
-
-                count++;
-            }
-
-            for(Player p : this.plugin.getServer().getOnlinePlayers()) {
-                p.sendTitle(
-                        MessageFormat.format("{0}Happy Halloween!", ChatColor.GOLD),
-                        MessageFormat.format("{0}{1}{2} are amazing players / geniuses.", ChatColor.BLUE, ChatColor.BOLD, winners.toString()),
-                        10,
-                        100,
-                        20);
-            }
-
-            Bukkit.broadcastMessage(MessageFormat.format("{0}{1}ATTENTION, EVERYONE!", ChatColor.BLUE, ChatColor.BOLD));
-            Bukkit.broadcastMessage(MessageFormat.format("{0}{1}{2} are amazing players / geniuses.", ChatColor.BLUE, ChatColor.BOLD, winners.toString()));
         }
+
+        Team winningTeam = this.plugin.teamManager.getTeamForPlayer(winner);
+
+        if (winningTeam == null) {
+            super.sendWinnerMessage(winner);
+            return;
+        }
+
+        int count = 0;
+        StringBuilder winners = new StringBuilder();
+        for (Player player : winningTeam.getPlayers()) {
+            if (count == 0) {
+                winners.append(player.getDisplayName());
+            } else if (count == winningTeam.getPlayers().size() - 1) {
+                winners.append(" and ").append(player.getDisplayName());
+            } else {
+                winners.append(", ").append(player.getDisplayName());
+            }
+
+            count++;
+        }
+
+        for(Player p : this.plugin.getServer().getOnlinePlayers()) {
+            p.sendTitle(
+                    MessageFormat.format("{0}Happy Halloween!", ChatColor.GOLD),
+                    MessageFormat.format("{0}{1}{2} are amazing players / geniuses.", ChatColor.BLUE, ChatColor.BOLD, winners.toString()),
+                    10,
+                    100,
+                    20);
+        }
+
+        Bukkit.broadcastMessage(MessageFormat.format("{0}{1}ATTENTION, EVERYONE!", ChatColor.BLUE, ChatColor.BOLD));
+        Bukkit.broadcastMessage(MessageFormat.format("{0}{1}{2} are amazing players / geniuses.", ChatColor.BLUE, ChatColor.BOLD, winners.toString()));
     }
 }
