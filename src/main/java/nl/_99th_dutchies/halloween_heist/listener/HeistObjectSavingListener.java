@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.player.PlayerItemDamageEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -75,6 +76,14 @@ public class HeistObjectSavingListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onPlayerItemDamage(PlayerItemDamageEvent event) {
+        if (this.plugin.season.isHeistObject(event.getItem())) {
+            event.setCancelled(true);
+            System.out.println("Prevented PlayerItemDamage to HeistObject by " + event.getPlayer().getDisplayName());
+        }
+    }
+
     private void doDropHeistObject(Player p) {
         PlayerInventory pi = p.getInventory();
 
@@ -84,6 +93,22 @@ public class HeistObjectSavingListener implements Listener {
         if (this.plugin.season.isHeistObject(pi.getItemInOffHand())) {
             p.getWorld().dropItem(p.getLocation(), pi.getItemInOffHand());
             pi.setItemInOffHand(null);
+        }
+        if (pi.getHelmet() != null && this.plugin.season.isHeistObject(pi.getHelmet())) {
+            p.getWorld().dropItem(p.getLocation(), pi.getHelmet());
+            pi.setHelmet(null);
+        }
+        if (pi.getChestplate() != null && this.plugin.season.isHeistObject(pi.getChestplate())) {
+            p.getWorld().dropItem(p.getLocation(), pi.getChestplate());
+            pi.setChestplate(null);
+        }
+        if (pi.getLeggings() != null && this.plugin.season.isHeistObject(pi.getLeggings())) {
+            p.getWorld().dropItem(p.getLocation(), pi.getLeggings());
+            pi.setLeggings(null);
+        }
+        if (pi.getBoots() != null && this.plugin.season.isHeistObject(pi.getBoots())) {
+            p.getWorld().dropItem(p.getLocation(), pi.getBoots());
+            pi.setBoots(null);
         }
         for(int i = 0; i < 36; i++) {
             ItemStack piItem = pi.getItem(i);
