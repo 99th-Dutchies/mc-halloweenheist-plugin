@@ -39,7 +39,7 @@ public class Season3 extends ASeason {
 
     @Override
     public void spawnHeistObject() {
-        Location dropLocation = new Location(this.plugin.mainWorld, -14, 76, 0);
+        Location dropLocation = new Location(this.plugin.mainWorld, -15, 77, 0);
 
         // Get container
         Block dropBlock = dropLocation.getBlock();
