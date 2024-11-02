@@ -220,7 +220,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         Player attacker = (Player) event.getDamager();
         Player defender = (Player) event.getEntity();
         Team defenderTeam = this.teamManager.getTeamForPlayer(defender);
-        if (defenderTeam.hasPlayer(attacker)) {
+        if (defenderTeam != null && defenderTeam.hasPlayer(attacker)) {
             event.setCancelled(true);
         }
     }

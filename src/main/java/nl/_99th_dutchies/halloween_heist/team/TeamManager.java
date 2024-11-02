@@ -133,10 +133,16 @@ public class TeamManager {
     }
 
     public void removePlayerFromTeam(Player player, Team team) {
+        ArrayList<Player> playersToRemove = new ArrayList<>();
+
         for (Player teamPlayer : team.getPlayers()) {
             if (teamPlayer.getUniqueId().equals(player.getUniqueId())) {
-                team.removePlayer(teamPlayer);
+                playersToRemove.add(teamPlayer);
             }
+        }
+
+        for (Player playerToRemove : playersToRemove) {
+            team.removePlayer(playerToRemove);
         }
 
         this.save();
