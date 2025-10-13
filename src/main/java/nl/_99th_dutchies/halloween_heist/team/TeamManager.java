@@ -1,5 +1,6 @@
 package nl._99th_dutchies.halloween_heist.team;
 
+import com.sun.istack.internal.Nullable;
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -178,6 +179,17 @@ public class TeamManager {
     public Team getTeamForPlayer(Player player) {
         for (Team team : this.teams) {
             if (team.hasPlayer(player)) {
+                return team;
+            }
+        }
+
+        return null;
+    }
+
+    @Nullable
+    public Team getLastTeam(){
+        for (Team team : this.teams){
+            if (!team.allPlayersSurrendered()){
                 return team;
             }
         }

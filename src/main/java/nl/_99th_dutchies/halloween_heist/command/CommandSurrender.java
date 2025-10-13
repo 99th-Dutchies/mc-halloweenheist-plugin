@@ -2,7 +2,6 @@ package nl._99th_dutchies.halloween_heist.command;
 
 import nl._99th_dutchies.halloween_heist.HalloweenHeistPlugin;
 import nl._99th_dutchies.halloween_heist.team.Team;
-import nl._99th_dutchies.halloween_heist.team.TeamManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -28,9 +27,22 @@ public class CommandSurrender extends ACommand {
         Team team = this.plugin.teamManager.getTeamForPlayer(p);
 
         team.playerSurrendered(p);
-        if(team.allPlayersSurrendered()){
-            //lose
-        }
+        checkOneTeamLeft();
+
         return true;
+    }
+
+    public void checkOneTeamLeft(){
+        int teamsLeft = 0;
+
+        for(Team team : this.plugin.teamManager.getTeams()){
+            if(!team.allPlayersSurrendered()){
+                teamsLeft++;
+            }
+        }
+
+        if (teamsLeft == 1){
+            this.plugin.heistState.set("forceEnd", true);
+        }
     }
 }

@@ -1,5 +1,6 @@
 itemLoaded: false
 announced: false
+forceEnd: false
 heistObject:
   location:
   container: DROPPED
