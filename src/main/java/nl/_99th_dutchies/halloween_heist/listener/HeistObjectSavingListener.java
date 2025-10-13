@@ -38,6 +38,9 @@ public class HeistObjectSavingListener implements Listener {
         if(!this.plugin.config.getBoolean("allowEnderchest") && event.getBlockPlaced().getType() == Material.ENDER_CHEST) {
             event.getBlockPlaced().getLocation().getBlock().setType(Material.CHEST);
         }
+        if(this.plugin.season.isHeistObject(event.getItemInHand())){
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
