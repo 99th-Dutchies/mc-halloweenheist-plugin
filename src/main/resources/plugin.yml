@@ -16,6 +16,9 @@ commands:
   trade:
     description: Trade
     usage: /trade [material] [amount]
+  surrender:
+    description: Surrender
+    usage: /surrender
   team:
     description: Create a team or assign a player to a team. For console use only!
     usage: /team create [team] | /team add [team] [player]
