@@ -42,7 +42,7 @@ public class Season4 extends ASeason {
         Location dropLocation = this.generateLocation();
 
         if (!isRespawn) {
-            dropLocation = new Location(this.plugin.mainWorld, -15, 77, 0);
+            dropLocation = new Location(this.plugin.mainWorld, -10, 71, 27);
         }
 
         // Get container
