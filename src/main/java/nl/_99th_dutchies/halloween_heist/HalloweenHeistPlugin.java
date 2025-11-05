@@ -70,6 +70,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         this.getCommand("location").setExecutor(new CommandLocation(this));
         this.getCommand("trade").setExecutor(new CommandTrade(this));
         this.getCommand("team").setExecutor(new CommandTeam(this));
+        this.getCommand("surrender").setExecutor(new CommandSurrender(this));
 
         // Set heist data
         this.heistState = new HeistState(this);
@@ -97,6 +98,9 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
                 break;
             case 3:
                 this.season = new Season3(this);
+                break;
+            case 4:
+                this.season = new Season4(this);
                 break;
         }
     }
