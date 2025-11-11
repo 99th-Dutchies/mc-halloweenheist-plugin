@@ -71,6 +71,7 @@ public class HalloweenHeistPlugin extends JavaPlugin implements Listener {
         this.getCommand("trade").setExecutor(new CommandTrade(this));
         this.getCommand("team").setExecutor(new CommandTeam(this));
         this.getCommand("surrender").setExecutor(new CommandSurrender(this));
+        this.getCommand("unsurrender").setExecutor(new CommandUnsurrender(this));
 
         // Set heist data
         this.heistState = new HeistState(this);
