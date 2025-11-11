@@ -7,8 +7,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandSurrender extends ACommand {
-    public CommandSurrender(HalloweenHeistPlugin plugin) {
+public class CommandUnsurrender extends ACommand {
+    public CommandUnsurrender(HalloweenHeistPlugin plugin) {
         super(plugin);
     }
 
@@ -31,38 +31,22 @@ public class CommandSurrender extends ACommand {
             return false;
         }
 
-        if(team.playerHasSurrendered(p)){
-            sender.sendMessage("You already surrendered");
+        if(!team.playerHasSurrendered(p)){
+            sender.sendMessage("You are not surrendered");
             return true;
         }
 
-        team.playerSurrendered(p, true);
+        team.playerSurrendered(p, false);
 
         int playersSurrendered = 0;
         for(Player player : team.getPlayers()){
             if(team.playerHasSurrendered(player)){
                 playersSurrendered++;
             }
-            player.sendMessage("Your team-member " + p.getName() + " has surrendered");
+            player.sendMessage("Your team-member " + p.getName() + " has regained faith");
         }
         sender.sendMessage(playersSurrendered + "/" + team.getPlayers().size() + " team-members have surrendered");
 
-        checkOneTeamLeft();
-
         return true;
-    }
-
-    public void checkOneTeamLeft(){
-        int teamsLeft = 0;
-
-        for(Team team : this.plugin.teamManager.getTeams()){
-            if(!team.allPlayersSurrendered()){
-                teamsLeft++;
-            }
-        }
-
-        if (teamsLeft == 1){
-            this.plugin.heistState.set("forceEnd", true);
-        }
     }
 }

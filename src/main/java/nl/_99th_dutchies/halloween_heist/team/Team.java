@@ -31,7 +31,9 @@ public class Team {
         return this.players.containsKey(player);
     }
 
-    public void playerSurrendered(Player player) { players.replace(player, Boolean.TRUE); }
+    public void playerSurrendered(Player player, boolean surrendered) { players.replace(player, surrendered); }
+
+    public boolean playerHasSurrendered(Player player){ return players.get(player); }
 
     public Boolean allPlayersSurrendered() { return !players.containsValue(false);}
 }
