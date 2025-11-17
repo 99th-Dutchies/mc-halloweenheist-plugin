@@ -70,6 +70,16 @@ public class Season4 extends ASeason {
                         EquipmentSlot.HAND
                 )
         );
+        dropItemMeta.addAttributeModifier(
+                Attribute.GENERIC_MAX_HEALTH,
+                new AttributeModifier(
+                        UUID.randomUUID(),
+                        "Plaque Boost",
+                        4.0,
+                        AttributeModifier.Operation.ADD_NUMBER,
+                        EquipmentSlot.OFF_HAND
+                )
+        );
         dropItemMeta.setDisplayName(this.getHeistObjectName());
         dropItemStack.setItemMeta(dropItemMeta);
 
