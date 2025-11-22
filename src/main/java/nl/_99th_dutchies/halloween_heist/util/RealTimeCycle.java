@@ -28,7 +28,7 @@ public class RealTimeCycle implements Runnable {
 
         this.plugin.mainWorld.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         this.plugin.mainWorld.setTime(value);
-        this.plugin.mainWorld.setDifficulty(difficultyCheck(hours*60+minutes, sunSet));
+        this.plugin.mainWorld.setDifficulty(difficultyCheck(minutes, sunSet));
     }
 
     public Difficulty difficultyCheck(final long currentMinutes, final double sunSet){
